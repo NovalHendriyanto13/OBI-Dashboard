@@ -228,5 +228,5 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
 
     ],
-
+    'email_support'=>env('EMAIL_SUPPORT'),
 ];
