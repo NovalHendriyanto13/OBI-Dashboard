@@ -23,8 +23,6 @@ Route::middleware(['web','auth'])->group(function() {
 	Route::get('/', ['as'=>'home','uses'=>'Index\IndexController@index']);
 	// Logout
 	Route::get('logout',['as'=>'logout','uses'=>'AuthController@logout']);
-	// Group
-	Route::prefix('group')->group(function() {
-		Route::get('/',['as'=>'group.index','uses'=>'Group\GroupController@index']);
-	});
+	
+	require_once(__DIR__.'/../config/routes.php');
 });

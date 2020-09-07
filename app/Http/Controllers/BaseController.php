@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Tools\Redis;
+use App\Tools\Variable;
 
 class BaseController extends Controller {
 	protected $_baseUrl;
@@ -11,48 +12,82 @@ class BaseController extends Controller {
 	protected $_title = 'Application';
 	protected $_model;
 
+	public function __construct() {
+		$global = Variable::set([
+			'title'=>$this->_title,
+			'base_url' => $this->_baseUrl,
+		]);
+	}
 	public function index(Request $request) {
+
 		$data = [
-			'title' => $this->_title,
-			'data'	=> $this->retrieveData($request),
-			'userInfo'  => Auth::user(),
+			'data'	=> [
+				'model'=>$this->retrieveData($request),
+				'setting'=>$this->indexSetting(),
+			],
 		];
-		return view($this->_baseView.'.index')->with($data );
+		return view($this->_baseView.'.index')->with($data);
 	}
 
-	public function retrieveData(Request $request) {
+	protected function retrieveData(Request $request) {
 		if (is_null($this->_model))
 			return [];
 
-		return $this->_model::all();
+		return $this->_model::get();
+	}
+
+	protected function indexSetting() {
+		return [
+			'table'=>[],
+			'action_buttons'=>[]
+		];
 	}
 
 	public function create() {
-		$data = [
-			'title'=>$this->_title.' Create',
-			'userInfo'  => Auth::user(),
-		];
+		$form = $this->setForm() === null ? null : $this->setForm();
 
+		$data = [
+			'form' => new $form,
+		];
 		return view($this->_baseView.'.create')->with($data);
 	}
 
-	public function insertData(Request $request) {}
+	protected function setForm() { return null; }
+
+	public function createAction(Request $request) {
+		$data = $request->all();
+		unset($data['_token']);
+
+		if($this->_model::create($data)) {
+			return response()->json([
+				'status'=>true,
+				'data'=>$data,
+				'errors'=>null,
+				'redirect'=>[
+					'page'=>$this->_baseUrl
+				],
+			]);
+		}
+		
+		return response()->json([
+			'status'=>false,
+			'data'=>[],
+			'errors'=>[
+				'messages'=>'Invalid Input',
+			],
+			'redirect'=>false,
+		]);
+	}
 
 	public function update($id) {
+		$model = $this->_model::find($id);
+		$form = $this->setForm();
+		
 		$data = [
-			'title'=>$this->_title.' Update',
-			'data'=>$this->getSingleData($id),
-			'userInfo'  => Auth::user(),
+			'form' => new $form($model),
 		];
 
 		return view($this->_baseView.'.update')->with($data);
 	}
 
-	protected function tableSetting() {
-		
-	}
-
-	private function _getUserInfo() {
-
-	}
 }

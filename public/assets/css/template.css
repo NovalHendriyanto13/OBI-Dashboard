@@ -996,7 +996,7 @@ body {
   line-height: 1.5;
   color: #001737;
   text-align: left;
-  background-color: #fff; }
+  background-color: #fafafa; }
 
 [tabindex="-1"]:focus {
   outline: 0 !important; }

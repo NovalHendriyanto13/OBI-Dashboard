@@ -12,6 +12,9 @@ class AuthController extends Controller {
 
 	public function index() {
 		$data = [];
+		if (Auth::check()) {
+			return redirect($this->redirectTo);
+		}
 		return view('login')->with($data);
 	}
 	public function authenticate(Request $request) {

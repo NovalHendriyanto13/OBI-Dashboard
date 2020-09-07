@@ -1,9 +1,5 @@
 @extends('layouts.layout')
 
-@section('title')
-{{$title}}
-@endsection
-
 @section('css')
 <link rel="stylesheet" href="{{asset('assets/css/template.dashboard.css')}}">
 @endsection
