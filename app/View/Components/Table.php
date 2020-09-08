@@ -35,8 +35,8 @@ class Table extends Component
         if (count($this->setting) > 0) {
             return $this->setting;
         }
-        $data = $this->model[0]->toArray();
-        
+        $data = count($this->model) > 0 ? $this->model[0]->toArray() : [];
+        $setting = [];
         foreach($data as $k=>$v) {
             if(!in_array($k,$this->exception)) {
                 $setting[] = [

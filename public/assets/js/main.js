@@ -1,21 +1,22 @@
 $(function () {
 	'use strict';
 
-	$('form').submit( (e) => {
+	let form = $('form')
+	form.submit( function(e) {
 		e.preventDefault()
-		const that = $(this)
-		const url = that.attr('action')
-		var params = $('form').serializeArray()
+		var that = $(this)
+		var url = that.attr('action')
+		var params = that.serializeArray()
 		var method = that.attr('method')
 
 		const alert = $('.alert')
 		const alertMsg = $('.alert-msg')
-
 		if (typeof(method) === 'undefined') {
-			alertMsg.html('Error !')
+			alertMsg.html('Error ! Please provide form method')
 			alert.css('display','block')
 			return false;
 		}
+
 		$.ajax({
 			beforeSend: ()=>{
 				$('.spinner').css('display','block')
@@ -23,9 +24,9 @@ $(function () {
 			complete: ()=> {
 				$('.spinner').css('display','none')
 			},
-			url: url,
+			url: baseUrl + url,
 			data: params,
-			type: 'POST',
+			type: method,
 			dataType: 'JSON',
 			success: (res)=> {
 				let data = res.data;
@@ -34,11 +35,15 @@ $(function () {
 						return window.location.href = baseUrl + res.redirect.page
 					}
 				}
+				else {
+					alertMsg.html('Error ! ' + res.errors.messages)
+					alert.css('display','block')
+				}
 			},
 			error: (err)=> {
 				console.log(err)
 
-				$('.alert-msg').html('Error ! ')
+				$('.alert-msg').html('Error ! ' + err.errors.messages)
 				$('.alert').css('display','block')
 			}
 		});
@@ -54,5 +59,14 @@ $(function () {
         		lengthMenu: '_MENU_ items/page',
       		}
     	});
+    }
+
+    let select2 = $('.select2')
+    if (select2.length > 0) {
+    	select2.select2({
+          placeholder: 'Select one',
+          searchInputPlaceholder: 'Search options',
+          allowClear: true
+        });
     }
 });

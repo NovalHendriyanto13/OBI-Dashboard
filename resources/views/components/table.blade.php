@@ -49,6 +49,11 @@
         @endforeach
 	  </tbody>
 	</table>
+	@if(count($data) <= 0)
+	<div class="mg-t-10">
+		No Data Displayed
+	</div>
+	@endif
 </div><!-- df-example -->
 
 @section('js')

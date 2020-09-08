@@ -3,6 +3,8 @@ namespace App\Form;
 
 use Lib\Form;
 use App\View\Components\InputText;
+use App\View\Components\InputSelect;
+use App\Models\Group;
 
 class UserForm extends Form {
 	
@@ -11,28 +13,35 @@ class UserForm extends Form {
 			'name'=>'name',
 			'class'=>'tes',
 			'type'=>'text',
+			'required'=>true,
 		]);
 		$this->addCollection($name);
 
 		$username = new InputText([
 			'name'=>'username',
 			'class'=>'username',
-			'type'=>'text'
+			'type'=>'text',
+			'required'=>true,
 		]);
 		$this->addCollection($username);
 
 		$email = new InputText([
 			'name'=>'email',
 			'type'=>'email',
+			'required'=>true,
 		]);
 		$this->addCollection($email);
-
-		$password = new InputText([
-			'name'=>'password',
-			'type'=>'password'
-		]);
-		$this->addCollection($password, 'test');
 		
+		$group = new InputSelect([
+			'name'=>'Group',
+			'allowEmpty'=>true,
+			'required'=>true,
+			'options'=>Group::select('id','name')
+				->where("name" , '<>' ,'root')
+				->get()
+		]);
+		$this->addCollection($group);
+
 		parent::initialize($entity, $options);
 	}
 }

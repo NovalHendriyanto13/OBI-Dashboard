@@ -23,7 +23,7 @@ class BaseController extends Controller {
 		$data = [
 			'data'	=> [
 				'model'=>$this->retrieveData($request),
-				'setting'=>$this->indexSetting(),
+				'setting'=>$this->indexData(),
 			],
 		];
 		return view($this->_baseView.'.index')->with($data);
@@ -36,7 +36,7 @@ class BaseController extends Controller {
 		return $this->_model::get();
 	}
 
-	protected function indexSetting() {
+	protected function indexData() {
 		return [
 			'table'=>[],
 			'action_buttons'=>[]
@@ -84,10 +84,35 @@ class BaseController extends Controller {
 		$form = $this->setForm();
 		
 		$data = [
+			'id'=>$id,
 			'form' => new $form($model),
 		];
 
 		return view($this->_baseView.'.update')->with($data);
 	}
 
+	public function updateAction(Request $request, $id) {
+		$data = $request->all();
+		unset($data['_token']);
+
+		if($this->_model::where('id',$id)->update($data)) {
+			return response()->json([
+				'status'=>true,
+				'data'=>$data,
+				'errors'=>null,
+				'redirect'=>[
+					'page'=>$this->_baseUrl
+				],
+			]);
+		}
+		
+		return response()->json([
+			'status'=>false,
+			'data'=>[],
+			'errors'=>[
+				'messages'=>'Invalid Input',
+			],
+			'redirect'=>false,
+		]);
+	}
 }

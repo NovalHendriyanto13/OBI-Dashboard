@@ -18,7 +18,7 @@
       </nav>
       <h4 class="mg-b-0 tx-spacing--1">List {{variable_get('title')}} Management</h4>
     </div>
-    @if(isset($data['setting']['action_buttons']))
+    @if(isset($data['setting']['action_buttons']) && count($data['setting']['action_buttons']) > 0)
       <x-action-button :setting="$data['setting']['action_buttons']"/>
     @endif
   </div>

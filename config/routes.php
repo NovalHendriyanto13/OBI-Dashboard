@@ -2,6 +2,8 @@
 $base = [
 	'group'=>Group\GroupController::class,
 	'user'=>Users\UserController::class,
+	'module'=>Module\ModuleController::class,
+	'menu'=>Menus\MenuController::class,
 ];
 
 foreach($base as $prefix=>$c) {

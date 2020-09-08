@@ -1,7 +1,7 @@
 @extends('layouts.auth')
 
 @section('contents')
-<form class="form-horizontal" action="{{URL::to('login')}}" method="post">
+<form class="form form-horizontal" action="{{URL::to('login')}}" method="post">
   <div class="content content-fixed content-auth">
     <div class="container">
       <div class="media align-items-stretch justify-content-center ht-100p pos-relative">
@@ -34,7 +34,7 @@
           <div class="wd-100p">
             <h3 class="tx-color-01 mg-b-5">Sign In</h3>
             <p class="tx-color-03 tx-16 mg-b-40">Welcome back! Please signin to continue.</p>
-
+            <x-alert><div class="alert-msg"></div></x-alert>
             <div class="form-group">
               <label>Email address</label>
               <input type="email" class="form-control" placeholder="yourname@yourmail.com" name="username">

@@ -44,8 +44,6 @@
 
     <!-- append theme customizer -->
     <script src="{{asset('assets/lib/js-cookie/js.cookie.js')}}"></script>
-    <script src="{{asset('assets/js/main.settings.js')}}"></script>
     <script src="{{asset('assets/js/main.js')}}"></script>
-
   </body>
 </html>

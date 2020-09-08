@@ -1,15 +1,15 @@
 <?php
-namespace App\Http\Controllers\Users;
+namespace App\Http\Controllers\Module;
 
 use App\Http\Controllers\BaseController;
-use App\Models\User;
-use App\Form\UserForm;
+use App\Models\Module;
+use App\Form\ModuleForm;
 use Illuminate\Http\Request;
 
-class UserController extends BaseController {
-	protected $_baseUrl = 'user';
-	protected $_title = 'User';
-	protected $_model = User::class;
+class ModuleController extends BaseController {
+	protected $_baseUrl = 'module';
+	protected $_title = 'Module';
+	protected $_model = Module::class;
 
 	protected function indexData() {
 		return [
@@ -21,18 +21,13 @@ class UserController extends BaseController {
 						'visible'=>false,
 					],
 					[
+						'name'=>'initial',
+						'title'=>'Initial',
+						'visible'=>true,
+					],
+					[
 						'name'=>'name',
 						'title'=>'Name',
-						'visible'=>true,
-					],
-					[
-						'name'=>'username',
-						'title'=>'Username',
-						'visible'=>true,
-					],
-					[
-						'name'=>'email',
-						'title'=>'Email',
 						'visible'=>true,
 					],
 				],
@@ -56,8 +51,7 @@ class UserController extends BaseController {
 			],
 		];
 	}
-
 	protected function setForm() {
-		return UserForm::class;
+		return ModuleForm::class;
 	}
 }

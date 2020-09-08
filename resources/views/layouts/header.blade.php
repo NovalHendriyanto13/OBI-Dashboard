@@ -37,8 +37,8 @@
               <li class="nav-label">Authentication</li>
               <li class="nav-sub-item"><a href="{{URL::to('group')}}" class="nav-sub-link"><i data-feather="log-in"></i> Group</a></li>
               <li class="nav-sub-item"><a href="{{URL::to('user')}}" class="nav-sub-link"><i data-feather="user-plus"></i> Users</a></li>
-              <li class="nav-sub-item"><a href="page-verify.html" class="nav-sub-link"><i data-feather="user-check"></i> Verify Account</a></li>
-              <li class="nav-sub-item"><a href="page-forgot.html" class="nav-sub-link"><i data-feather="shield-off"></i> Forgot Password</a></li>
+              <li class="nav-sub-item"><a href="{{URL::to('module')}}" class="nav-sub-link"><i data-feather="user-check"></i> Module</a></li>
+              <li class="nav-sub-item"><a href="{{URL::to('menu')}}" class="nav-sub-link"><i data-feather="shield-off"></i> Menu </a></li>
               <li class="nav-label mg-t-20">User Pages</li>
               <li class="nav-sub-item"><a href="page-profile-view.html" class="nav-sub-link"><i data-feather="user"></i> View Profile</a></li>
               <li class="nav-sub-item"><a href="page-connections.html" class="nav-sub-link"><i data-feather="users"></i> Connections</a></li>
