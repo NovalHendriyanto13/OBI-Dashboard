@@ -17,8 +17,11 @@ class InputText extends Component
      *
      * @return void
      */
-    public function __construct(array $attr)
+    public function __construct(Array $attr)
     {
+        if(!isset($attr['readonly']))
+            $attr['readonly'] = false;
+
         $this->_attr = $attr;
     }
 

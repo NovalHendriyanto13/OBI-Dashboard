@@ -20,7 +20,7 @@ Route::post('login', ['as'=>'login_action','uses'=>'AuthController@authenticate'
 
 Route::middleware(['web','auth'])->group(function() {
 	// Index 
-	Route::get('/', ['as'=>'home','uses'=>'Index\IndexController@index']);
+	Route::get('/', ['as'=>'home','uses'=>'Dashboard\Index\IndexController@index']);
 	// Logout
 	Route::get('logout',['as'=>'logout','uses'=>'AuthController@logout']);
 	

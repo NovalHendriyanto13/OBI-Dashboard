@@ -9,6 +9,10 @@ use App\Models\Group;
 class UserForm extends Form {
 	
 	protected function initialize($entity=null, array $options) {
+		$mode = '';
+		if (isset($options['mode']) && $options['mode'] == 'edit')
+			$mode = 'edit';
+
 		$name = new InputText([
 			'name'=>'name',
 			'class'=>'tes',
@@ -33,13 +37,15 @@ class UserForm extends Form {
 		$this->addCollection($email);
 		
 		$group = new InputSelect([
-			'name'=>'Group',
+			'label'=>'Group',
+			'name'=>'group_id',
 			'allowEmpty'=>true,
 			'required'=>true,
 			'options'=>Group::select('id','name')
 				->where("name" , '<>' ,'root')
 				->get()
 		]);
+
 		$this->addCollection($group);
 
 		parent::initialize($entity, $options);

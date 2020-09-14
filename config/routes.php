@@ -1,9 +1,10 @@
 <?php
 $base = [
-	'group'=>Group\GroupController::class,
-	'user'=>Users\UserController::class,
-	'module'=>Module\ModuleController::class,
-	'menu'=>Menus\MenuController::class,
+	'group'=>Authentication\Group\GroupController::class,
+	'user'=>Authentication\Users\UserController::class,
+	'module'=>Authentication\Module\ModuleController::class,
+	'menu'=>Authentication\Menus\MenuController::class,
+	'permission'=>Authentication\Permission\PermissionController::class,
 ];
 
 foreach($base as $prefix=>$c) {

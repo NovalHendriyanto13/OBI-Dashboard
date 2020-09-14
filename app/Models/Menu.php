@@ -16,4 +16,12 @@ class Menu extends Model {
 	 * @var array
 	 */
 	protected $guarded = [];
+
+	public function parent() {
+		return $this->belongsTo('App\Models\Menu','parent_id');
+	}
+
+	public function module() {
+		return $this->hasOne('App\Models\Module','id','module_id');
+	}
 }

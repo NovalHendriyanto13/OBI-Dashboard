@@ -3,7 +3,7 @@
 	<x-alert><div class="alert-msg"></div></x-alert>
 	@csrf
 	<div class="align-items-center justify-content-between mg-b-5 mg-lg-b-10 mg-xl-b-15" style="text-align:right;">
-		<x-action-button/>
+		<x-action-button :route="variable_get('base_url')"/>
 	</div>
 
 	<div class="card">
@@ -14,6 +14,8 @@
     	  			<a class="nav-link @if(array_key_first($collections) == $k) active @endif" id="{{\Str::snake($k)}}-tab" data-toggle="tab" href="#{{\Str::snake($k)}}" role="tab" aria-controls="home" aria-selected="true">{{\Str::ucfirst($k)}}</a>
         		</li>
         	@endforeach
+
+        	@if(isset($additionalTabTitle)) {{ $additionalTabTitle }} @endif
     		</ul>
     	</div>
     	<div class="card-body">
@@ -27,6 +29,7 @@
     				</div>
 	  			</div>
 			@endforeach
+				@if(isset($additionalTab)) {{ $additionalTab }} @endif
 			</div>
 		</div>
   	</div>

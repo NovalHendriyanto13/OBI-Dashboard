@@ -17,6 +17,15 @@ $(function () {
 			return false;
 		}
 
+		if (typeof(additionalParams) != 'undefined') {
+			params[params.length] = { 
+				name : 'additional',
+				value: additionalParams 
+			}
+		}
+
+		console.log(params)
+		// return;
 		$.ajax({
 			beforeSend: ()=>{
 				$('.spinner').css('display','block')
@@ -43,7 +52,7 @@ $(function () {
 			error: (err)=> {
 				console.log(err)
 
-				$('.alert-msg').html('Error ! ' + err.errors.messages)
+				$('.alert-msg').html('Error ! Something error in your input')
 				$('.alert').css('display','block')
 			}
 		});

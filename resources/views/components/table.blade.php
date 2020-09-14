@@ -29,7 +29,12 @@
 	  		@foreach($setting['columns'] as $s)
 	    		@if($s['visible'] == true)
 	    		@php $k = $s['name'] @endphp
-	        	<td>{{$d->$k}}</td>
+	    			@if(\Str::contains($k,'.') && $a = \Str::of($k)->explode('.'))
+	    			@php $property = $a[0]; $value = $a[1]; $relation = $d->$property; @endphp
+	    			<td>{{$relation[$value]}}</td>
+	    			@else
+		        	<td>{{$d->$k}}</td>
+					@endif
 	        	@endif
 	        @endforeach
 

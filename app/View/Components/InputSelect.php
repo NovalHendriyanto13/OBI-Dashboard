@@ -24,6 +24,9 @@ class InputSelect extends Component
         if (array_key_exists('options', $attr))
             $this->_options = $attr['options'];
 
+        if (!array_key_exists('allowEmpty', $attr))
+            $attr['allowEmpty'] = false;
+
         $attr['options'] = $this->getData();
         $this->_attr = $attr;
     }
@@ -36,7 +39,6 @@ class InputSelect extends Component
             }
             return $options;
         }
-
         return $this->_options;
     }
 

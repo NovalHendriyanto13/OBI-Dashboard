@@ -28,4 +28,8 @@ class User extends Model {
         'password' => false,
         // 'created_by' => Auth::user()->id
     ];
+
+    public function group() {
+        return $this->hasOne('App\Models\Group','id','group_id');
+    }
 }

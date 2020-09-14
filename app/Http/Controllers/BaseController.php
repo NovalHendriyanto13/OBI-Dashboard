@@ -6,7 +6,11 @@ use Illuminate\Support\Facades\Auth;
 use App\Tools\Redis;
 use App\Tools\Variable;
 
+use App\Traits\DbTrait;
+
 class BaseController extends Controller {
+	use DbTrait;
+	
 	protected $_baseUrl;
 	protected $_baseView = 'default';
 	protected $_title = 'Application';
@@ -45,7 +49,7 @@ class BaseController extends Controller {
 
 	public function create() {
 		$form = $this->setForm() === null ? null : $this->setForm();
-
+		
 		$data = [
 			'form' => new $form,
 		];
@@ -57,7 +61,7 @@ class BaseController extends Controller {
 	public function createAction(Request $request) {
 		$data = $request->all();
 		unset($data['_token']);
-
+		
 		if($this->_model::create($data)) {
 			return response()->json([
 				'status'=>true,
@@ -85,7 +89,7 @@ class BaseController extends Controller {
 		
 		$data = [
 			'id'=>$id,
-			'form' => new $form($model),
+			'form' => new $form($model, ['mode'=>'edit']),
 		];
 
 		return view($this->_baseView.'.update')->with($data);

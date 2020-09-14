@@ -9,15 +9,7 @@
 @section('content')
 <div class="container pd-x-0 pd-lg-x-10 pd-xl-x-0">
   <div class="d-sm-flex align-items-center justify-content-between mg-b-20 mg-lg-b-25 mg-xl-b-30">
-    <div>
-      <nav aria-label="breadcrumb">
-        <ol class="breadcrumb breadcrumb-style1 mg-b-10">
-          <li class="breadcrumb-item"><a href="{{URL::to('/')}}">Dashboard</a></li>
-          <li class="breadcrumb-item active" aria-current="page">{{variable_get('title')}}</li>
-        </ol>
-      </nav>
-      <h4 class="mg-b-0 tx-spacing--1">List {{variable_get('title')}} Management</h4>
-    </div>
+    <x-breadcrumb type="list" />  
     @if(isset($data['setting']['action_buttons']) && count($data['setting']['action_buttons']) > 0)
       <x-action-button :setting="$data['setting']['action_buttons']"/>
     @endif

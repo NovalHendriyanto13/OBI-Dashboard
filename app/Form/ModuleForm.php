@@ -3,26 +3,28 @@ namespace App\Form;
 
 use Lib\Form;
 use App\View\Components\InputText;
-use App\View\Components\InputSelect;
 
 class ModuleForm extends Form {
 	
 	protected function initialize($entity=null, array $options) {
+		$mode = '';
+		if (isset($options['mode']) && $options['mode'] == 'edit')
+			$mode = 'edit';
+		
 		$name = new InputText([
 			'name'=>'name',
-			'class'=>'tes',
+			'class'=>'text-name',
 			'type'=>'text',
 			'required'=>true,
 		]);
 		$this->addCollection($name);
 
-		$initial = new InputText([
-			'name'=>'initial',
-			'class'=>'Initial',
+		$action = new InputText([
+			'name'=>'action',
+			'class'=>'text-action',
 			'type'=>'text',
-			'required'=>true,
 		]);
-		$this->addCollection($initial);
+		$this->addCollection($action);
 
 		parent::initialize($entity, $options);
 	}

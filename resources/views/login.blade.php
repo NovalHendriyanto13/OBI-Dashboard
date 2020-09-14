@@ -1,7 +1,7 @@
 @extends('layouts.auth')
 
 @section('contents')
-<form class="form form-horizontal" action="{{URL::to('login')}}" method="post">
+<form class="form form-horizontal" action="login" method="post">
   <div class="content content-fixed content-auth">
     <div class="container">
       <div class="media align-items-stretch justify-content-center ht-100p pos-relative">
@@ -37,14 +37,14 @@
             <x-alert><div class="alert-msg"></div></x-alert>
             <div class="form-group">
               <label>Email address</label>
-              <input type="email" class="form-control" placeholder="yourname@yourmail.com" name="username">
+              <input type="email" class="form-control" placeholder="yourname@yourmail.com" name="username" required="true">
             </div>
             <div class="form-group">
               <div class="d-flex justify-content-between mg-b-5">
                 <label class="mg-b-0-f">Password</label>
                 <a href="{{URL::to('forgot-password')}}" class="tx-13">Forgot password?</a>
               </div>
-              <input type="password" class="form-control" placeholder="Enter your password" name="password">
+              <input type="password" class="form-control" placeholder="Enter your password" name="password" required="true">
             </div>
             <button class="btn btn-brand-02 btn-block">
               <span class="spinner-border spinner-border-sm spinner" role="status" aria-hidden="true" style="display: none;"></span>

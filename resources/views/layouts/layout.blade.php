@@ -40,8 +40,7 @@
     <script src="{{asset('assets/lib/js-cookie/js.cookie.js')}}"></script>
     <script src="{{asset('assets/lib/select2/js/select2.min.js')}}"></script>
     <script src="{{asset('assets/lib/feather-icons/feather.min.js')}}"></script>
-    <script src="{{asset('assets/js/main.js')}}"></script>
     @yield('js')
-    
+    <script src="{{asset('assets/js/main.js')}}"></script>    
   </body>
 </html>

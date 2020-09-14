@@ -12,15 +12,21 @@ class ActionButton extends Component
      */
     public $setting;
     /**
+     *
+     * @var string
+     */
+    public $route;
+    /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct($setting=[])
+    public function __construct($setting=[], $route='/')
     {
+        $this->route = $route;
         if (count($setting) <= 0)
             $setting = $this->default();
-        
+
         $this->setting = $setting;
     }
 
@@ -30,7 +36,7 @@ class ActionButton extends Component
                 'icon'=>'x-circle',
                 'class'=>'btn-white',
                 'title'=>'Cancel',
-                'url'=>url()->previous(),
+                'url'=>route($this->route.'.index'),
                 'type'=>'link',
             ],
             [

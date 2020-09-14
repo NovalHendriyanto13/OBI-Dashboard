@@ -5,6 +5,9 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
+use App\Models\Permission;
+use App\Models\Group;
+
 use App\Tools\Redis;
 
 class AuthController extends Controller {
@@ -27,10 +30,8 @@ class AuthController extends Controller {
 			$hashKey = Hash::make($user->password.$user->id);
 			$user->hash = $hashKey;
 
-			// Redis::set($hashKey, json_encode([
-			// 	'name' => $user->name,
-			// 	'email' => $user->email,
-			// ]));
+			// get permission
+			Permission::setPermission($user->group_id);
 
 			return response()->json([
 				'status'=>true,

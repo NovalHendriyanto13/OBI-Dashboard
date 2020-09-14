@@ -16,4 +16,8 @@ class Module extends Model {
 	 * @var array
 	 */
 	protected $guarded = [];
+
+	public function menu() {
+		return $this->belongsTo('App\Models\User');
+	}
 }
