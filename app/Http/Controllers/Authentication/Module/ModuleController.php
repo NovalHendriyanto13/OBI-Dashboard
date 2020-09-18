@@ -119,7 +119,37 @@ class ModuleController extends BaseController {
 				],
 				'redirect'=>false,
 			]);
+		}	
+	}
+
+	public function updateAction(Request $request, $id) {
+		$data = $request->all();
+		unset($data['_token']);
+
+		$data['initial'] = strtolower($data['name']).'.'.strtolower($data['action']);
+
+		if($this->_model::where('id',$id)->update($data)) {
+			return response()->json([
+				'status'=>true,
+				'data'=>$data,
+				'errors'=>null,
+				'redirect'=>[
+					'page'=>$this->_baseUrl
+				],
+			]);
 		}
 		
+		return response()->json([
+			'status'=>false,
+			'data'=>[],
+			'errors'=>[
+				'messages'=>'Invalid Input',
+			],
+			'redirect'=>false,
+		]);
+	}
+
+	public function getAction(String $name) {
+		$modules = $this->model->where('name',$name)->get();
 	}
 }

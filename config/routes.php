@@ -16,3 +16,10 @@ foreach($base as $prefix=>$c) {
 		Route::put('update/{id}',['as'=>$prefix.'.update','uses'=>$c.'@updateAction']);
 	});
 }
+
+// other route
+Route::get('module/get-action/{name}', ['as'=>'module.getAction','uses'=>'Authentication\Module\ModuleController@getAction']);
+
+Route::prefix('setting')->group(function() {
+	Route::get('clear',['as'=>'setting.clear','uses'=>'Setting\Setting\SettingController@clear']);
+});

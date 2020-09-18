@@ -3,7 +3,9 @@ namespace App\Http\Controllers\Authentication\Menus;
 
 use App\Http\Controllers\BaseController;
 use App\Models\Menu;
+use App\Models\Module;
 use App\Form\MenuForm;
+use Illuminate\Http\Request;
 
 class MenuController extends BaseController {
 	protected $_baseUrl = 'menu';
@@ -63,5 +65,28 @@ class MenuController extends BaseController {
 
 	protected function setForm() {
 		return MenuForm::class;
+	}
+
+	protected function additionalParams(Request $request) {
+		$moduleName = $request->input('module');
+		$action = $request->input('action');
+		
+		$checkModule = Module::where('name', $moduleName)
+			->where('action', $action)
+			->first();
+
+		if (is_null($checkModule)) {
+			return [
+				'errors'=>["Module and action is not exists"]
+			];
+		}
+		
+		return [
+			'module_id'=>$checkModule->id,
+		];
+	}
+
+	protected function unsetParam() {
+		return ['module'];
 	}
 }

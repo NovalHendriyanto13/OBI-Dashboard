@@ -6,16 +6,21 @@
 		<span class="tx-danger">*</span>
 		@endif
 		</label>
-	    <select class="form-control select2" name="{{$attributes['name']}}" id="{{$attributes['name']}}">
-	    	@if($attributes['allowEmpty'])
-	    	<option value=""> Select One </option>
-	    	@endif
-	      @foreach($attributes['options'] as $k=>$v)
+	    <select class="form-control select2 @if(isset($attributes['class'])) {{$attributes['class']}} @endif" 
+	    	name="{{$attributes['name']}}" 
+	    	id="{{\Str::lower($attributes['name'])}}" 	    	
+	    	@if(isset($attributes['ajax-href'])) ajax-to="{{$attributes['ajax-href']}}" @endif
+	    	@if(isset($attributes['ajax-to'])) ajax-to="{{$attributes['ajax-to']}}" @endif>
 
-	      <option 
-	      	value="{{ $k }}" 
-	      	@if(isset($attributes['value']) && $attributes['value'] == $k) selected="true" @endif>{{ $v }}</option>
-	      @endforeach
+			@if($attributes['allowEmpty'])
+			<option value=""> Select One </option>
+			@endif
+			@foreach($attributes['options'] as $k=>$v)
+
+			<option 
+				value="{{ $k }}" 
+				@if(isset($attributes['value']) && $attributes['value'] == $k) selected="true" @endif>{{ $v }}</option>
+			@endforeach
 	      
 	    </select>
 	</div>

@@ -8,5 +8,5 @@
       @endif
     </ol>
   </nav>
-  <h4 class="mg-b-0 tx-spacing--1">{{variable_get('title')}} Update</h4>
+  <h4 class="mg-b-0 tx-spacing--1">{{variable_get('title')}} {{\Str::ucfirst($mode)}}</h4>
 </div>  

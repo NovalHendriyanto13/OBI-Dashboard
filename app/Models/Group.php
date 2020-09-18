@@ -9,7 +9,7 @@ class Group extends Model {
      *
      * @var string
      */
-    protected $table = 'groups'; 
+    protected $table = BaseTable::TBL_GROUP; 
 
     public function menu() {
     	return $this->hasToMany('App\Models\Menu','permission','group_id','menu_id');

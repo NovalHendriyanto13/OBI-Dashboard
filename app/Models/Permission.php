@@ -2,7 +2,6 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Auth;
 
 class Permission extends Model {
 	/**
@@ -10,7 +9,7 @@ class Permission extends Model {
      *
      * @var string
      */
-    protected $table = 'permission'; 
+    protected $table = BaseTable::TBL_PERMISSION; 
 
     /**
 	 * The attributes that aren't mass assignable.

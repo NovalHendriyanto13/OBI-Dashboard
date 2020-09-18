@@ -32,6 +32,9 @@ class InputText extends Component
      */
     public function render()
     {
+        if(!isset($this->_attr['value']) && isset($this->_attr['default']))
+            $this->_attr['value'] = $this->_attr['default'];
+        
         return view('components.input-text',[
             'attributes'=>$this->_attr,
         ]);

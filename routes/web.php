@@ -18,7 +18,7 @@ Route::get('login', [ 'as'=> 'login', 'uses'=>'AuthController@index']);
 Route::get('forgot-password',['as'=>'forgot_password','uses'=>'AuthController@forgot']);
 Route::post('login', ['as'=>'login_action','uses'=>'AuthController@authenticate']);
 
-Route::middleware(['web','auth'])->group(function() {
+Route::middleware(['web','auth','authorize'])->group(function() {
 	// Index 
 	Route::get('/', ['as'=>'home','uses'=>'Dashboard\Index\IndexController@index']);
 	// Logout

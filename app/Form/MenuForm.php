@@ -33,23 +33,24 @@ class MenuForm extends Form {
 		]);
 		$this->addCollection($parent);
 
-		$module = new InputSelect([
-			'name'=>'module_id',
-			// 'required'=>true,
+		$attrModule = [
+			'name'=>'module',
 			'allowEmpty'=>true,
-			'options'=>Module::select('id','name')
-				->where('action','index')
-				->orderBy('name')
-				->get()
-		]);
+			'options'=>$this->loadModule(),
+		];
+		
+		if ($mode === 'edit') {
+			$moduleValue = $entity->module;
+			$attrModule['value'] = $entity->module->name;
+		}
+
+		$module = new InputSelect($attrModule);
 		$this->addCollection($module);
 
 		$action = new InputText([
 			'name'=>'action',
 			'type'=>'text',
-			'value'=>'index',
-			'readonly'=>true,
-			// 'required'=>true,
+			'default'=>'index',
 		]);
 		$this->addCollection($action);
 		
@@ -63,14 +64,12 @@ class MenuForm extends Form {
 		$menuGrup = new InputText([
 			'name'=>'menu_group',
 			'type'=>'text',
-			// 'label'=>'Icon Class'
 		]);
 		$this->addCollection($menuGrup);
 
 		$sort = new InputText([
 			'name'=>'sort_number',
 			'type'=>'number',
-			// 'label'=>'Icon Class'
 		]);
 		$this->addCollection($sort);
 
@@ -79,11 +78,25 @@ class MenuForm extends Form {
 			'name'=>'status',
 			'required'=>true,
 			'options'=>[
-				'No',
-				'Yes'
+				1=>'Yes',
+				0=>'No'
 			]
 		]);
 		$this->addCollection($status);
+
 		parent::initialize($entity, $options);
+	}
+
+	private function loadModule() {
+		$module = Module::select('name')
+				->orderBy('name')
+				->get();
+
+		$modules = [];
+		foreach ($module as $m) {
+			$modules[$m->name] = $m->name;
+		}
+
+		return $modules;
 	}
 }

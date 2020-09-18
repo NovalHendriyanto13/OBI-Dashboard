@@ -1,6 +1,6 @@
 @extends('layouts.auth')
 
-@section('contents')
+@section('content')
 <form class="form form-horizontal" action="login" method="post">
   <div class="content content-fixed content-auth">
     <div class="container">

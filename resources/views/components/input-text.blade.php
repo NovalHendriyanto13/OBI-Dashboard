@@ -11,6 +11,7 @@
 			placeholder="{{isset($attributes['label']) ? \Str::title($attributes['label']) : \Str::title(\Str::of($attributes['name'])->replace('_',' '))}}" 
 			name="{{$attributes['name']}}"
 			value="{{isset($attributes['value']) ? $attributes['value'] : ''}}"
+			id="{{\Str::lower($attributes['name'])}}"
 			@if($attributes['readonly'] == true) readonly @endif>
 	</div>
 	<!-- <div class="valid-feedback">Looks good!</div> -->

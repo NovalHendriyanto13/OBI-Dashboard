@@ -5,10 +5,10 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
-use App\Models\Permission;
 use App\Models\Group;
 
 use App\Tools\Redis;
+use App\Tools\Permission as storePermission;
 
 class AuthController extends Controller {
 	protected $redirectTo = '/';
@@ -31,7 +31,7 @@ class AuthController extends Controller {
 			$user->hash = $hashKey;
 
 			// get permission
-			Permission::setPermission($user->group_id);
+			storePermission::setPermission($user->group_id);
 
 			return response()->json([
 				'status'=>true,

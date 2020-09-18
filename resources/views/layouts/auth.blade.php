@@ -22,6 +22,11 @@
         max-width: 750px;
         height: auto;
       }
+      .img-error, .label-error {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+      }
     </style>
   </head>
   <body>
@@ -31,7 +36,7 @@
         <a href="#" class="df-logo">OTOBID<span>Indonesia</span></a>
       </div><!-- navbar-brand -->
     </header><!-- navbar -->
-    @yield('contents')
+    @yield('content')
 
     @include('layouts.footer')
     <script type="text/javascript"> var baseUrl = "{{config('app.url')}}" </script>

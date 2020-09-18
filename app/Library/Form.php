@@ -24,7 +24,8 @@ class Form {
 		if($this->_entity != null) {
 			$attrName = $arr->_attr['name'];
 			//set default edit
-			$arr->_attr['value'] = $this->_entity->$attrName;
+			if (!isset($arr->_attr['value']))
+				$arr->_attr['value'] = $this->_entity->$attrName;
 		}
 		
 		$this->_collection[$name][] = $arr;

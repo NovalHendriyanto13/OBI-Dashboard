@@ -34,8 +34,8 @@ class InputSelect extends Component
     private function getData() {
         if(is_object($this->_options)){
             $options = [];
-            foreach($this->_options as $value) {
-                $options[$value->id] = $value->name;
+            foreach($this->_options as $option) {
+                $options[$option->id] = $option->name;
             }
             return $options;
         }
@@ -53,4 +53,5 @@ class InputSelect extends Component
             'attributes'=>$this->_attr
         ]);
     }
+
 }

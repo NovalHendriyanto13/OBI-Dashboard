@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\Group;
 use App\Models\Permission;
 use App\Models\Module;
+use App\Models\BaseTable;
+
 use App\Form\GroupForm;
 
 class GroupController extends BaseController {
@@ -128,9 +130,9 @@ class GroupController extends BaseController {
 	}
 
 	private function setModule($groupId='') {
-		$modules = Module::leftJoin('permission','modules.id','=','module_id')
-			->select('modules.id AS id', 'modules.name', 'modules.action', 'permission.group_id')
-			->orderBy('modules.initial')
+		$modules = Module::leftJoin(BaseTable::TBL_PERMISSION,BaseTable::TBL_MODULE.'.id','=','module_id')
+			->select(BaseTable::TBL_MODULE.'.id AS id', BaseTable::TBL_MODULE.'.name', BaseTable::TBL_MODULE.'.action', 'permission.group_id')
+			->orderBy(BaseTable::TBL_MODULE.'.initial')
 			->get();
 
 		$data = [];

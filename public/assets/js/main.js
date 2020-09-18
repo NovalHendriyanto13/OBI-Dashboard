@@ -24,8 +24,6 @@ $(function () {
 			}
 		}
 
-		console.log(params)
-		// return;
 		$.ajax({
 			beforeSend: ()=>{
 				$('.spinner').css('display','block')
@@ -77,5 +75,24 @@ $(function () {
           searchInputPlaceholder: 'Search options',
           allowClear: true
         });
+    }
+
+    let ajaxCall = $('select.ajax-call')
+    if (ajaxCall.length > 0) {
+    	ajaxCall.change((e)=>{
+    		e.preventDefault();
+    		let that = $(this)
+    		let to = that.attr('ajax-to')
+    		let href = that.attr('ajax-href')
+    		
+    		$.ajax({
+    			url : href,
+    			type: 'GET',
+    			success:(data) => {
+    				console.log(data)
+    			}
+    		})
+
+    	})
     }
 });

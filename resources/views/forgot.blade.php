@@ -1,6 +1,6 @@
 @extends('layouts.auth')
 
-@section('contents')
+@section('content')
 <form>
   <div class="content content-fixed content-auth-alt">
     <div class="container d-flex justify-content-center ht-100p">

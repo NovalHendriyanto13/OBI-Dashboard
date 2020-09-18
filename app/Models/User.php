@@ -1,8 +1,8 @@
 <?php
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\Eloquent\Model;
 
 class User extends Model {
 	/**
@@ -10,7 +10,7 @@ class User extends Model {
      *
      * @var string
      */
-    protected $table = 'users'; 
+    protected $table = BaseTable::TBL_USER; 
 
     /**
 	 * The attributes that aren't mass assignable.

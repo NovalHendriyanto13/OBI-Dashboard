@@ -62,6 +62,18 @@ class BaseController extends Controller {
 		$data = $request->all();
 		unset($data['_token']);
 		
+		$data = array_merge($data, $this->additionalParams($request));
+		
+		// filter 
+		$filter = $this->filterParam($data);
+		if (is_array($filter)) {
+			return response()->json($filter);
+		}
+
+		foreach($this->unsetParam() as $unset) {
+			unset($data[$unset]);
+		}
+
 		if($this->_model::create($data)) {
 			return response()->json([
 				'status'=>true,
@@ -99,6 +111,14 @@ class BaseController extends Controller {
 		$data = $request->all();
 		unset($data['_token']);
 
+		$data = array_merge($data, $this->additionalParams($request));
+
+		// filter 
+		$filter = $this->filterParam($data);
+		if (is_array($filter)) {
+			return response()->json($filter);
+		}
+
 		if($this->_model::where('id',$id)->update($data)) {
 			return response()->json([
 				'status'=>true,
@@ -119,4 +139,25 @@ class BaseController extends Controller {
 			'redirect'=>false,
 		]);
 	}
+
+	protected function additionalParams(Request $request) {
+		return [];
+	}
+
+	protected function filterParam(Array $data) {
+		if (array_key_exists('errors', $data)) {
+			return [
+				'status'=>false,
+				'data'=>[],
+				'errors'=>[
+					'messages'=>$data['errors'],
+				],
+				'redirect'=>false,
+			];
+		}
+
+		return true;
+	}
+
+	protected function unsetParam() { return []; }
 }

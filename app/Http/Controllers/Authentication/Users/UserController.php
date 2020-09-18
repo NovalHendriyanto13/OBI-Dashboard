@@ -5,13 +5,9 @@ use App\Http\Controllers\BaseController;
 use App\Models\User;
 use App\Form\UserForm;
 use Illuminate\Http\Request;
-use App\Models\UserGroup;
-
-use App\Traits\DbTransactionTrait;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends BaseController {
-
-	use DbTransactionTrait;
 
 	protected $_baseUrl = 'user';
 	protected $_title = 'User';
@@ -76,5 +72,11 @@ class UserController extends BaseController {
 
 	protected function setForm() {
 		return UserForm::class;
+	}
+
+	protected function additionalParams(Request $request) {
+		return [
+			'password' => Hash::make('otobid123')
+		];
 	}
 }

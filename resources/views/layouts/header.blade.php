@@ -10,25 +10,23 @@
     </div><!-- navbar-menu-header -->
     <ul class="nav navbar-menu">
       <li class="nav-label pd-l-20 pd-lg-l-25 d-lg-none">Main Navigation</li>
+      @foreach(set_menu(Auth::user()->group_id) as $parent=>$menus)
       <li class="nav-item with-sub active">
-        <a href="" class="nav-link"><i data-feather="pie-chart"></i> Dashboard</a>
+        <a href="" class="nav-link"><i data-feather="pie-chart"></i> {{$parent}}</a>
+        @if (count((array) $menus) > 0)
         <ul class="navbar-menu-sub">
-          <li class="nav-sub-item"><a href="dashboard-one.html" class="nav-sub-link"><i data-feather="bar-chart-2"></i>Sales Monitoring</a></li>
-          <li class="nav-sub-item"><a href="dashboard-two.html" class="nav-sub-link"><i data-feather="bar-chart-2"></i>Website Analytics</a></li>
-          <li class="nav-sub-item"><a href="dashboard-three.html" class="nav-sub-link"><i data-feather="bar-chart-2"></i>Cryptocurrency</a></li>
-          <li class="nav-sub-item"><a href="dashboard-four.html" class="nav-sub-link"><i data-feather="bar-chart-2"></i>Helpdesk Management</a></li>
+          @foreach($menus as $group=>$menu)
+            @if($group != '')
+            <li class="nav-label">{{$group}}</li>
+            @endif
+            @foreach($menu as $item)
+            <li class="nav-sub-item"><a href="{{route($item->initial)}}" class="nav-sub-link">@if($item->icon != '') <i data-feather="bar-chart-2"></i> @endif {{$item->name}}</a></li>
+            @endforeach
+          @endforeach
         </ul>
+        @endif
       </li>
-      <li class="nav-item with-sub">
-        <a href="" class="nav-link"><i data-feather="package"></i> Apps</a>
-        <ul class="navbar-menu-sub">
-          <li class="nav-sub-item"><a href="app-calendar.html" class="nav-sub-link"><i data-feather="calendar"></i>Calendar</a></li>
-          <li class="nav-sub-item"><a href="app-chat.html" class="nav-sub-link"><i data-feather="message-square"></i>Chat</a></li>
-          <li class="nav-sub-item"><a href="app-contacts.html" class="nav-sub-link"><i data-feather="users"></i>Contacts</a></li>
-          <li class="nav-sub-item"><a href="app-file-manager.html" class="nav-sub-link"><i data-feather="file-text"></i>File Manager</a></li>
-          <li class="nav-sub-item"><a href="app-mail.html" class="nav-sub-link"><i data-feather="mail"></i>Mail</a></li>
-        </ul>
-      </li>
+      @endforeach
       <li class="nav-item with-sub">
         <a href="" class="nav-link"><i data-feather="layers"></i> Pages</a>
         <div class="navbar-menu-sub">
@@ -60,6 +58,8 @@
           </div>
         </div><!-- nav-sub -->
       </li>
+      
+      <!---- END -->
       <li class="nav-item"><a href="../../components/" class="nav-link"><i data-feather="box"></i> Components</a></li>
       <li class="nav-item"><a href="../../collections/" class="nav-link"><i data-feather="archive"></i> Collections</a></li>
     </ul>
@@ -209,3 +209,4 @@
     </div><!-- navbar-search-body -->
   </div><!-- navbar-search -->
 </header><!-- navbar -->
+@php //dd(set_menu(Auth::user()->group_id)) @endphp

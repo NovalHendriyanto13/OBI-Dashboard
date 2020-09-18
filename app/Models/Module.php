@@ -9,7 +9,7 @@ class Module extends Model {
      *
      * @var string
      */
-    protected $table = 'modules'; 
+    protected $table = BaseTable::TBL_MODULE; 
     /**
 	 * The attributes that aren't mass assignable.
 	 *
