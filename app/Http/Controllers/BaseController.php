@@ -23,7 +23,6 @@ class BaseController extends Controller {
 		]);
 	}
 	public function index(Request $request) {
-
 		$data = [
 			'data'	=> [
 				'model'=>$this->retrieveData($request),

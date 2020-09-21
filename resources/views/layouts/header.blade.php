@@ -10,7 +10,8 @@
     </div><!-- navbar-menu-header -->
     <ul class="nav navbar-menu">
       <li class="nav-label pd-l-20 pd-lg-l-25 d-lg-none">Main Navigation</li>
-      @foreach(set_menu(Auth::user()->group_id) as $parent=>$menus)
+
+      @foreach(set_menu(session('user')->group_id) as $parent=>$menus)
       <li class="nav-item with-sub active">
         <a href="" class="nav-link"><i data-feather="pie-chart"></i> {{$parent}}</a>
         @if (count((array) $menus) > 0)
@@ -168,8 +169,8 @@
       </a><!-- dropdown-link -->
       <div class="dropdown-menu dropdown-menu-right tx-13">
         <div class="avatar avatar-lg mg-b-15"><img src="https://via.placeholder.com/500" class="rounded-circle" alt=""></div>
-        <h6 class="tx-semibold mg-b-5">{{ Auth::user()->name }}</h6>
-        <p class="mg-b-25 tx-12 tx-color-03">Administrator</p>
+        <h6 class="tx-semibold mg-b-5">{{ session('user')->name }}</h6>
+        <p class="mg-b-25 tx-12 tx-color-03">{{ \Str::upper(session('group')->name) }}</p>
 
         <a href="{{URL::to('user/profile')}}" class="dropdown-item"><i data-feather="edit-3"></i> Edit Profile</a>
         <a href="{{URL::to('user/view')}}" class="dropdown-item"><i data-feather="user"></i> View Profile</a>
@@ -209,4 +210,3 @@
     </div><!-- navbar-search-body -->
   </div><!-- navbar-search -->
 </header><!-- navbar -->
-@php //dd(set_menu(Auth::user()->group_id)) @endphp

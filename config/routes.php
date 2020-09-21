@@ -5,6 +5,7 @@ $base = [
 	'module'=>Authentication\Module\ModuleController::class,
 	'menu'=>Authentication\Menus\MenuController::class,
 	'permission'=>Authentication\Permission\PermissionController::class,
+	'area'=>Masters\Master\AreaController::class,
 ];
 
 foreach($base as $prefix=>$c) {

@@ -63,9 +63,8 @@ class Permission {
 	public static function isAuthorized(String $module, String $action='index') {
 		if (self::isRoot())
 			return true;
-		dd(self::$_groupId);
+		
 		// $getPermission = self::getPermission(self::$_permissionKey.self::$_groupId);
-		dd($getPermission);
-
+		
 	}
 }

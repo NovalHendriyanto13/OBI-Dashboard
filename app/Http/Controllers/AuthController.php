@@ -29,10 +29,14 @@ class AuthController extends Controller {
 			$user = Auth::user();
 			$hashKey = Hash::make($user->password.$user->id);
 			$user->hash = $hashKey;
+			// store into session
+			$request->session()->put('user',$user);
 
+			$group = Group::find($user->group_id);
+			
+			$request->session()->put('group',$group);
 			// get permission
 			storePermission::setPermission($user->group_id);
-
 			return response()->json([
 				'status'=>true,
 				'data'=>[],
@@ -56,8 +60,11 @@ class AuthController extends Controller {
 		return view('forgot');
 
 	}
-	public function logout() {
+	public function logout(Request $request) {
 		Auth::logout();
+		
+		$request->session()->flush();
+
 		return redirect('login');
 	}
 }

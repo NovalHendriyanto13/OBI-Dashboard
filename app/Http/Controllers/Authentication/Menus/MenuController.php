@@ -71,19 +71,22 @@ class MenuController extends BaseController {
 		$moduleName = $request->input('module');
 		$action = $request->input('action');
 		
-		$checkModule = Module::where('name', $moduleName)
-			->where('action', $action)
-			->first();
+		if($moduleName !='' && $action != '') {
+			$checkModule = Module::where('name', $moduleName)
+				->where('action', $action)
+				->first();
 
-		if (is_null($checkModule)) {
+			if (is_null($checkModule)) {
+				return [
+					'errors'=>["Module and action is not exists"]
+				];
+			}
+			
 			return [
-				'errors'=>["Module and action is not exists"]
+				'module_id'=>$checkModule->id,
 			];
 		}
-		
-		return [
-			'module_id'=>$checkModule->id,
-		];
+		return [];
 	}
 
 	protected function unsetParam() {
