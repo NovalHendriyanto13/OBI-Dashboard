@@ -1,5 +1,5 @@
 <?php
-namespace App\Http\Controllers\Authentication\Module;
+namespace App\Http\Controllers\Authentication;
 
 use App\Http\Controllers\BaseController;
 use App\Models\Module;
@@ -74,7 +74,7 @@ class ModuleController extends BaseController {
 				foreach($actions as $action) {
 					$insertEachActions = $this->_model::firstOrCreate([
 						'initial'=>strtolower($data['name']).'.'.$action,
-						'name'=>$data['name'],
+						'name'=>ucfirst($data['name']),
 						'action'=>$action
 					]);
 					if(!$insertEachActions)
@@ -86,7 +86,7 @@ class ModuleController extends BaseController {
 			else {
 				$insertEachActions = $this->_model::firstOrCreate([
 					'initial'=>strtolower($data['name']).'.'.strtolower($data['action']),
-					'name'=>$data['name'],
+					'name'=>ucfirst($data['name']),
 					'action'=>strtolower($data['action'])
 				]);
 				if(!$insertEachActions)

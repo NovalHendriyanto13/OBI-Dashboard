@@ -1,13 +1,14 @@
 <?php
-namespace App\Http\Controllers\Masters\Master;
+namespace App\Http\Controllers\Masters;
 
 use App\Http\Controllers\BaseController;
-use App\Models\Area;
+use App\Models\Brand;
+use App\Form\BrandForm;
 
-class AreaController extends BaseController {
-	protected $_baseUrl = 'area';
-	protected $_title = 'Area';
-	protected $_model = Area::class;
+class BrandController extends BaseController {
+	protected $_baseUrl = 'brand';
+	protected $_title = 'Brand';
+	protected $_model = Brand::class;
 
 	protected function indexData() {
 		return [
@@ -19,8 +20,8 @@ class AreaController extends BaseController {
 						'visible'=>false,
 					],
 					[
-						'name'=>'area_code',
-						'title'=>'Code',
+						'name'=>'parent.name',
+						'title'=>'Brand',
 						'visible'=>true,
 					],
 					[
@@ -28,21 +29,6 @@ class AreaController extends BaseController {
 						'title'=>'Name',
 						'visible'=>true,
 					],
-					[
-						'name'=>'address',
-						'title'=>'Address',
-						'visible'=>true,
-					],
-					[
-						'name'=>'status',
-						'title'=>'Status',
-						'visible'=>true,
-					],
-					// [
-					// 	'name'=>'action',
-					// 	'title'=>'Action',
-					// 	'visible'=>true,
-					// ],
 				],
 				'grid_actions'=>[
 					[
@@ -66,6 +52,6 @@ class AreaController extends BaseController {
 	}
 
 	protected function setForm() {
-		return MenuForm::class;
+		return BrandForm::class;
 	}
 }

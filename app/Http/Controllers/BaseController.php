@@ -74,6 +74,7 @@ class BaseController extends Controller {
 		}
 
 		if($this->_model::create($data)) {
+			$request->session()->flash('status', 'Update was successful!');
 			return response()->json([
 				'status'=>true,
 				'data'=>$data,
@@ -118,7 +119,12 @@ class BaseController extends Controller {
 			return response()->json($filter);
 		}
 
+		foreach($this->unsetParam() as $unset) {
+			unset($data[$unset]);
+		}
+
 		if($this->_model::where('id',$id)->update($data)) {
+			$request->session()->flash('status', 'Update was successful!');
 			return response()->json([
 				'status'=>true,
 				'data'=>$data,
@@ -139,9 +145,7 @@ class BaseController extends Controller {
 		]);
 	}
 
-	protected function additionalParams(Request $request) {
-		return [];
-	}
+	protected function additionalParams(Request $request) { return []; }
 
 	protected function filterParam(Array $data) {
 		if (array_key_exists('errors', $data)) {

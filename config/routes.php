@@ -1,11 +1,13 @@
 <?php
 $base = [
-	'group'=>Authentication\Group\GroupController::class,
-	'user'=>Authentication\Users\UserController::class,
-	'module'=>Authentication\Module\ModuleController::class,
-	'menu'=>Authentication\Menus\MenuController::class,
-	'permission'=>Authentication\Permission\PermissionController::class,
-	'area'=>Masters\Master\AreaController::class,
+	'group'=>Authentication\GroupController::class,
+	'user'=>Authentication\UserController::class,
+	'module'=>Authentication\ModuleController::class,
+	'menu'=>Authentication\MenuController::class,
+	'permission'=>Authentication\PermissionController::class,
+	'area'=>Masters\AreaController::class,
+	'brand'=>Masters\BrandController::class,
+	'consignor'=>Masters\ConsignorController::class,
 ];
 
 foreach($base as $prefix=>$c) {
@@ -19,8 +21,8 @@ foreach($base as $prefix=>$c) {
 }
 
 // other route
-Route::get('module/get-action/{name}', ['as'=>'module.getAction','uses'=>'Authentication\Module\ModuleController@getAction']);
+Route::get('module/get-action/{name}', ['as'=>'module.getAction','uses'=>'Authentication\ModuleController@getAction']);
 
 Route::prefix('setting')->group(function() {
-	Route::get('clear',['as'=>'setting.clear','uses'=>'Setting\Setting\SettingController@clear']);
+	Route::get('clear',['as'=>'setting.clear','uses'=>'Setting\SettingController@clear']);
 });

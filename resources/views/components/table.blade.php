@@ -31,9 +31,21 @@
 	    		@php $k = $s['name'] @endphp
 	    			@if(\Str::contains($k,'.') && $a = \Str::of($k)->explode('.'))
 	    			@php $property = $a[0]; $value = $a[1]; $relation = $d->$property; @endphp
-	    			<td>{{$relation[$value]}}</td>
+	    			<td>
+	    				@if(isset($s['transform']))
+	    				{{ $s['transform'][$relation[$value]] }}
+	    				@else
+	    				{{ $relation[$value] }}
+	    				@endif
+	    			</td>
 	    			@else
-		        	<td>{{$d->$k}}</td>
+		        	<td>
+		        		@if(isset($s['transform']))
+		        		{{ $s['transform'][$d->$k] }}
+		        		@else
+		        		{{ $d->$k }}
+		        		@endif
+		        	</td>
 					@endif
 	        	@endif
 	        @endforeach

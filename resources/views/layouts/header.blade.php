@@ -12,8 +12,8 @@
       <li class="nav-label pd-l-20 pd-lg-l-25 d-lg-none">Main Navigation</li>
 
       @foreach(set_menu(session('user')->group_id) as $parent=>$menus)
-      <li class="nav-item with-sub active">
-        <a href="" class="nav-link"><i data-feather="pie-chart"></i> {{$parent}}</a>
+      <li class="nav-item with-sub">
+        <a href="" class="nav-link"><i data-feather="pie-chart"></i> {{$parent}} </a>
         @if (count((array) $menus) > 0)
         <ul class="navbar-menu-sub">
           @foreach($menus as $group=>$menu)

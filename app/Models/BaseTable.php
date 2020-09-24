@@ -9,4 +9,6 @@ class BaseTable {
 	const TBL_MODULE = 'modules';
 	const TBL_PERMISSION = 'permission';
 	const TBL_AREA = 'area';
+	const TBL_BRAND = 'brand';
+	const TBL_CONSIGNOR = 'consignor';
 }

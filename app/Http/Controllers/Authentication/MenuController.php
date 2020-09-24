@@ -1,5 +1,5 @@
 <?php
-namespace App\Http\Controllers\Authentication\Menus;
+namespace App\Http\Controllers\Authentication;
 
 use App\Http\Controllers\BaseController;
 use App\Models\Menu;
