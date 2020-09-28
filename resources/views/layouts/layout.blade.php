@@ -4,7 +4,8 @@
 
     <!-- Required meta tags -->
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">    
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">   
+    <meta name="csrf-token" content="{{ csrf_token() }}"> 
 
     <!-- Favicon -->
     <link rel="shortcut icon" type="image/x-icon" href="{{asset('assets/img/favicon.png')}}">
@@ -19,6 +20,8 @@
     <!-- Main CSS -->
     <link rel="stylesheet" href="{{asset('assets/css/template.css')}}">
     <!-- Additional CSS -->
+    @yield('css_component')
+
     @yield('css')
 
   </head>
@@ -40,6 +43,8 @@
     <script src="{{asset('assets/lib/js-cookie/js.cookie.js')}}"></script>
     <script src="{{asset('assets/lib/select2/js/select2.min.js')}}"></script>
     <script src="{{asset('assets/lib/feather-icons/feather.min.js')}}"></script>
+    <script src="{{asset('assets/lib/jqueryui/jquery-ui.min.js')}}"></script>
+    @yield('js_component')
     @yield('js')
     <script src="{{asset('assets/js/main.js')}}"></script>    
   </body>

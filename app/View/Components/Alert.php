@@ -13,13 +13,27 @@ class Alert extends Component
      */
     public $type = 'danger';
     /**
+     * alert type.
+     *
+     * @var string
+     */
+    public $class;
+    /**
+     * alert type.
+     *
+     * @var string
+     */
+    public $id;
+    /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct(String $type='danger')
+    public function __construct(String $type='danger', $class='', $id='')
     {
         $this->type = $type;
+        $this->class= $class;
+        $this->id = $id;
     }
 
     /**

@@ -1,30 +1,37 @@
+@section('css_component')
+<link rel="stylesheet" href="{{ asset('assets/lib/datatables.net-dt/css/jquery.dataTables.min.css')}}">
+<link rel="stylesheet" href="{{ asset('assets/lib/datatables.net-responsive-dt/css/responsive.dataTables.min.css')}}">
+<link rel="stylesheet" href="{{ asset('assets/lib/datatables.net/css/buttons.dataTables.min.css')}}">
+@endsection
 <div data-label="Example" class="df-example demo-table">
-	<table id="table-{{Str::random(10)}}" class="table datatable">
+	<table id="table-{{Str::random(10)}}" class="table datatable table-striped table-hover table-sm">
 	  <thead>
 	    <tr>
-	    	@if(isset($setting['actions']))
-	    		<th class="wd-3p">
+	    	@if(count($setting['bulks']) > 0)
+	    		<!-- <th class="wd-3p">
 	    			<input type="checkbox" name="all" id="table-checkall" class="custom-control-input">
-	    		</th>
+	    		</th> -->
+	    		<th></th>
 	    	@endif
 	    	@foreach($setting['columns'] as $s)
 	    		@if($s['visible'] == true)
-	        	<th class="wd-10p">{{Str::replaceArray('_',[' '],$s['title'])}}</th>
+	        	<th>{{Str::replaceArray('_',[' '],$s['title'])}}</th>
 	        	@endif
 	        @endforeach
 
 	        @if(isset($setting['grid_actions']))
-	        <th class="wd-10p">Actions</th>
+	        <th>Actions</th>
 	        @endif
 	    </tr>
 	  </thead>
 	  <tbody>
 	  	@foreach($data as $d)
 	  	<tr>
-	  		@if(isset($setting['actions']))
-	    		<td>
+	  		@if(count($setting['bulks']) > 0)
+	    		<!-- <td>
 	    			<input type="checkbox" name="check[]" id="table-check" value="{{$d->id}}" class="custom-control-input">
-	    		</td>
+	    		</td> -->
+	    		<td></td>
 	    	@endif
 	  		@foreach($setting['columns'] as $s)
 	    		@if($s['visible'] == true)
@@ -73,10 +80,13 @@
 	@endif
 </div><!-- df-example -->
 
-@section('js')
+@section('js_component')
 <script src="{{asset('assets/lib/datatables.net/js/jquery.dataTables.min.js')}}"></script>
 <script src="{{asset('assets/lib/datatables.net-dt/js/dataTables.dataTables.min.js')}}"></script>
 <script src="{{asset('assets/lib/datatables.net-responsive/js/dataTables.responsive.min.js')}}"></script>
 <script src="{{asset('assets/lib/datatables.net-responsive-dt/js/responsive.dataTables.min.js')}}"></script>
-<script src="{{asset('assets/lib/select2/js/select2.min.js')}}"></script>
+<script src="{{asset('assets/lib/datatables.net/js/dataTables.select.min.js')}}"></script>
+<script src="{{asset('assets/lib/datatables.net/js/dataTables.buttons.min.js')}}"></script>
+<script src="{{asset('assets/lib/datatables.net/js/buttons.colVis.min.js')}}"></script>
+
 @endsection

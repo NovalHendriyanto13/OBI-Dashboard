@@ -2,6 +2,7 @@
 namespace App\Http\Controllers\Masters;
 
 use App\Http\Controllers\BaseController;
+use Illuminate\Http\Request;
 use App\Models\Brand;
 use App\Form\BrandForm;
 
@@ -53,5 +54,11 @@ class BrandController extends BaseController {
 
 	protected function setForm() {
 		return BrandForm::class;
+	}
+
+	protected function validation() {
+		return [
+			'name'=>'required',
+		];
 	}
 }

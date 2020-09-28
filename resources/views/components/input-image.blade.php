@@ -6,13 +6,16 @@
 		<span class="tx-danger">*</span>
 		@endif
 		</label>
-		<input type="{{isset($attributes['type']) ? $attributes['type'] : 'text'}}" 
-			class="form-control {{isset($attributes['class']) ? $attributes['class'] : ''}}" 
-			placeholder="{{isset($attributes['label']) ? \Str::title($attributes['label']) : \Str::title(\Str::of($attributes['name'])->replace('_',' '))}}" 
+		<div class="col-md-12 mb-2">
+            <img id="{{\Str::lower($attributes['name'])}}-preview"
+                alt="preview image" style="max-height: 150px;display: none">
+        </div>
+		<input type="file" 
+			class="form-control input-image {{isset($attributes['class']) ? $attributes['class'] : ''}}" 
 			name="{{$attributes['name']}}"
 			value="{{isset($attributes['value']) ? $attributes['value'] : ''}}"
 			id="{{\Str::lower($attributes['name'])}}"
-			@if($attributes['readonly'] == true) readonly @endif>
+		/>
 
 		<x-alert class="alert-element mg-t-5" id="{{$attributes['name']}}-errors"></x-alert>
 	</div>

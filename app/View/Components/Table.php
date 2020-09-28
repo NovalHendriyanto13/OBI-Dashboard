@@ -27,6 +27,9 @@ class Table extends Component
      */
     public function __construct($model, $setting=[])
     {
+        if(!array_key_exists('bulks', $setting))
+            $setting['bulks'] = [];  
+
         $this->model = $model;
         $this->setting = $setting;
     }
@@ -46,6 +49,7 @@ class Table extends Component
                 ];
             }
         }
+        
         $this->setting['columns'] = $setting;
         return $this->setting;
     }

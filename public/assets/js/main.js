@@ -6,17 +6,22 @@ $(function () {
 		e.preventDefault()
 		var that = $(this)
 		var url = that.attr('action')
-		var params = that.serializeArray()
+		// var params = that.serializeArray()
 		var method = that.attr('method')
 
+		var params = new FormData(this);
 		const alert = $('.alert')
+		const alertForm = $('.alert-form')
 		const alertMsg = $('.alert-msg')
 		if (typeof(method) === 'undefined') {
 			alertMsg.html('Error ! Please provide form method')
-			alert.css('display','block')
+			alertForm.css('display','block')
 			return false;
 		}
 
+		/*
+		 * used for additional parameter and not in form generated
+		 */
 		if (typeof(additionalParams) != 'undefined') {
 			params[params.length] = { 
 				name : 'additional',
@@ -25,16 +30,22 @@ $(function () {
 		}
 
 		$.ajax({
-			beforeSend: ()=>{
+			url: baseUrl + url,
+			data: params,
+			type: method,
+			dataType: 'JSON',
+			// cache:false,
+	        contentType: false,
+	        processData: false,
+	        headers: {
+		        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+		    },
+	        beforeSend: ()=>{
 				$('.spinner').css('display','block')
 			},
 			complete: ()=> {
 				$('.spinner').css('display','none')
 			},
-			url: baseUrl + url,
-			data: params,
-			type: method,
-			dataType: 'JSON',
 			success: (res)=> {
 				let data = res.data;
 				if(res.status === true) {
@@ -43,29 +54,59 @@ $(function () {
 					}
 				}
 				else {
-					alertMsg.html('Error ! ' + res.errors.messages)
-					alert.css('display','block')
+					console.log(res.errors.messages)
+					if (typeof(res.errors.messages) === 'object') {
+						let errId
+						$.each((res.errors.messages), function(i, v) {
+							errId = $('#'+i+'-errors')
+							var errMessage = ''
+							$.each(v, function(ix, error) {
+								errMessage = errMessage + error + '<br/>'
+							})
+							errId.html(errMessage)
+							errId.css('display','block')
+						})
+						alertMsg.html('Error ! Some errors in your input')
+					}
+					else {
+						alertMsg.html('Error ! ' + res.errors.messages)
+					}
+					alertForm.css('display','block')
 				}
 			},
 			error: (err)=> {
 				console.log(err)
-
-				$('.alert-msg').html('Error ! Something error in your input')
-				$('.alert').css('display','block')
+				console.log('error-request')
+				alertMsg.html('Error ! Something error in your input')
+				alertForm.css('display','block')
 			}
 		});
 	})
 
 	let dataTable = $('.datatable')
 	if (dataTable.length > 0) {
-		dataTable.DataTable({
-    	  	responsive: true,
-      		language: {
-        		searchPlaceholder: 'Search...',
-        		sSearch: '',
-        		lengthMenu: '_MENU_ items/page',
-      		}
-    	});
+		let dataTableConfig = {
+			responsive: true,
+			dom: 'Bfrtip',
+	        buttons: [
+	            'colvis'
+	        ],
+			language: {
+				searchPlaceholder: 'Search...',
+				sSearch: '',
+				lengthMenu: '_MENU_ items/page',
+			},
+			// columnDefs: [ {
+			// 	orderable: false,
+			// 	className: 'select-checkbox',
+			// 	targets:   0
+			// } ],
+			// select: {
+			// 	style:    'os',
+			// 	selector: 'td:first-child'
+			// },
+		}
+		dataTable.DataTable(dataTableConfig)
     }
 
     let select2 = $('.select2')
@@ -94,5 +135,29 @@ $(function () {
     		})
 
     	})
+    }
+
+    let datePicker = $('.datepicker')
+    if (datePicker.length > 0) {
+    	datePicker.datepicker({
+		  showOtherMonths: true,
+		  selectOtherMonths: true,
+		  changeMonth: true,
+		  changeYear: true
+		});
+    }
+
+    let inputImage = $('.input-image')
+    if (inputImage.length > 0) {
+    	inputImage.on('change',function(){
+    		let thisId = $(this).attr('id')
+    		let reader = new FileReader()
+    		reader.onload = (e) => {
+    		  let preview = $('#'+thisId+'-preview') 
+    		  preview.attr('src', e.target.result)
+    		  preview.css('display','block')
+    		}
+		    reader.readAsDataURL(this.files[0])
+	   })
     }
 });

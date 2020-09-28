@@ -23,5 +23,7 @@
 			@endforeach
 	      
 	    </select>
+
+	    <x-alert class="alert-element mg-t-5" id="{{$attributes['name']}}-errors"></x-alert>
 	</div>
 </div>

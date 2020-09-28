@@ -12,6 +12,8 @@
 			name="{{$attributes['name']}}"
 			id="{{\Str::lower($attributes['name'])}}"
 			@if($attributes['readonly'] == true) readonly @endif>{{isset($attributes['value']) ? $attributes['value'] : ''}}</textarea>
+
+		<div class="alert alert-danger mg-t-5" id="{{$attributes['name']}}-errors" style="display: none;"></div>
 	</div>
 	<!-- <div class="valid-feedback">Looks good!</div> -->
 </div>

@@ -3,6 +3,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 use App\Tools\Redis;
 use App\Tools\Variable;
 
@@ -59,7 +60,6 @@ class BaseController extends Controller {
 
 	public function createAction(Request $request) {
 		$data = $request->all();
-		unset($data['_token']);
 		
 		$data = array_merge($data, $this->additionalParams($request));
 		
@@ -71,6 +71,19 @@ class BaseController extends Controller {
 
 		foreach($this->unsetParam() as $unset) {
 			unset($data[$unset]);
+		}
+
+		// validation
+		$validate = Validator::make($data, $this->validation());
+		if ($validate->fails()) {
+			return response()->json([
+				'status'=>false,
+				'data'=>[],
+				'errors'=>[
+					'messages'=>$validate->messages()->getMessages(),
+				],
+				'redirect'=>false,
+			]);
 		}
 
 		if($this->_model::create($data)) {
@@ -109,7 +122,6 @@ class BaseController extends Controller {
 
 	public function updateAction(Request $request, $id) {
 		$data = $request->all();
-		unset($data['_token']);
 
 		$data = array_merge($data, $this->additionalParams($request));
 
@@ -121,6 +133,19 @@ class BaseController extends Controller {
 
 		foreach($this->unsetParam() as $unset) {
 			unset($data[$unset]);
+		}
+
+		// validation
+		$validate = Validator::make($data, $this->validation());
+		if ($validate->fails()) {
+			return response()->json([
+				'status'=>false,
+				'data'=>[],
+				'errors'=>[
+					'messages'=>$validate->messages()->getMessages(),
+				],
+				'redirect'=>false,
+			]);
 		}
 
 		if($this->_model::where('id',$id)->update($data)) {
@@ -163,4 +188,6 @@ class BaseController extends Controller {
 	}
 
 	protected function unsetParam() { return []; }
+
+	protected function validation() { return []; }
 }

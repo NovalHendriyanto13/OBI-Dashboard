@@ -29,11 +29,11 @@ class AreaController extends BaseController {
 						'title'=>'Name',
 						'visible'=>true,
 					],
-					[
-						'name'=>'address',
-						'title'=>'Address',
-						'visible'=>true,
-					],
+					// [
+					// 	'name'=>'address',
+					// 	'title'=>'Address',
+					// 	'visible'=>true,
+					// ],
 					[
 						'name'=>'type',
 						'title'=>'Type',
@@ -46,11 +46,14 @@ class AreaController extends BaseController {
 						'visible'=>true,
 						'transform'=>['Inactive', 'Active'],
 					],
-					// [
-					// 	'name'=>'action',
-					// 	'title'=>'Action',
-					// 	'visible'=>true,
-					// ],
+				],
+				'bulks'=>[
+					[
+						'icon'=>'edit',
+						'class'=>'button_primary',
+						'title'=>'Active',
+						'url'=>url($this->_baseUrl.'/active')
+					],
 				],
 				'grid_actions'=>[
 					[
