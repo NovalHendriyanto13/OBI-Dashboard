@@ -1,8 +1,6 @@
 <?php
 namespace Lib;
 
-use App\View\Components\ActionButton;
-
 class Form {
 	protected $_collection = [];
 	protected static $_collections = [];

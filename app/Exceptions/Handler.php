@@ -55,15 +55,19 @@ class Handler extends ExceptionHandler
         if ($request->path() == RouteServiceProvider::HOME)
             return parent::render($request, $exception);
         
-        $statusCode = 0;
+        $statusCode = -1;
         if ($exception instanceof \Symfony\Component\HttpKernel\Exception\HttpException) {
             $statusCode = $exception->getStatusCode();    
         }
+        // else {
+        //     $statusCode = $exception->getCode();   
+        // }
         // elseif ($exception instanceof \Symfony\Component\HttpKernel\Exception\NotFoundHttpException) {
         //     $statusCode = $exception->getStatusCode();
         // }
-        
-        if ($statusCode > 0) {
+        // dd($exception->getMessage());
+
+        if ($statusCode >= 0) {
             $errors = [
                 401 => [
                     'image'=>'401.png',
@@ -81,12 +85,29 @@ class Handler extends ExceptionHandler
                         'description'=>'You may have mistyped the address or the page may have moved. <a href="'.url()->previous().'".>Back</a> to previous URL'
                     ],
                 ],
+                413 => [
+                    'image'=>'413.png',
+                    'title'=>'413 | Error ',
+                    'label'=>[
+                        'head'=>"Error Exception",
+                        'description'=>$exception->getMessage()
+                    ],
+                ],
+                // 0 => [
+                //     'image'=>'0.png',
+                //     'title'=>'Error ',
+                //     'label'=>[
+                //         'head'=>"Error Exception",
+                //         'description'=>$exception->getMessage().' on '.$exception->getFile().' line:'.$exception->getLine()
+                //     ],
+                // ],
             ];
 
             $data = [
                 'status'=>$statusCode,
                 'error'=>$errors[$statusCode]
             ];
+            
             $global = \App\Tools\Variable::set([
                 'title'=>$errors[$statusCode]['title'],
             ]);

@@ -47,7 +47,8 @@ $(function () {
 				$('.spinner').css('display','none')
 			},
 			success: (res)=> {
-				let data = res.data;
+				console.log(res)
+				let data = res.data
 				if(res.status === true) {
 					if (typeof(res.redirect.page) != 'undefined') {
 						return window.location.href = baseUrl + res.redirect.page
@@ -156,8 +157,28 @@ $(function () {
     		  let preview = $('#'+thisId+'-preview') 
     		  preview.attr('src', e.target.result)
     		  preview.css('display','block')
+
+    		  let remove = $('#'+thisId+'-preview-remove') 
+    		  remove.css('display','block')
     		}
 		    reader.readAsDataURL(this.files[0])
+	   })
+    }
+
+    let removePreview = $('.remove-preview')
+    if (removePreview.length > 0) {
+    	removePreview.on('click',function(e){
+    		e.preventDefault()
+    		let target = $(this).data('target')
+    		$('#'+target).removeAttr('src')
+    		$('#'+target).css('display','none')
+
+    		let targetFile = $(this).data('file')
+    		console.log($('#'+targetFile).val())
+    		$('#'+targetFile).val('')
+    		
+    		$(this).css('display','none')
+
 	   })
     }
 });

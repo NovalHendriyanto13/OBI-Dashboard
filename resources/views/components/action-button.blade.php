@@ -1,4 +1,4 @@
-<div class="d-none d-md-block">
+<div class="d-md-block">
   @foreach($data as $s)
   	@if(isset($s['type']))
 	  	@if($s['type'] == 'link')

@@ -16,5 +16,4 @@
 
 		<x-alert class="alert-element mg-t-5" id="{{$attributes['name']}}-errors"></x-alert>
 	</div>
-	<!-- <div class="valid-feedback">Looks good!</div> -->
 </div>

@@ -11,4 +11,6 @@ class BaseTable {
 	const TBL_AREA = 'area';
 	const TBL_BRAND = 'brand';
 	const TBL_CONSIGNOR = 'consignor';
+	const TBL_UNIT = 'unit';
+	const TBL_UNIT_TYPE = 'unit_type';
 }

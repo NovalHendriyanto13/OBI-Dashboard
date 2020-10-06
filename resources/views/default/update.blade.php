@@ -8,7 +8,7 @@
   
   <div class="row row-xs">
     <div class="col-md-12 col-xs-12">
-      <x-form :id="variable_get('base_url')" :action="variable_get('base_url').'/update/'.$id" class="form" method="put" />
+      <x-form :id="variable_get('base_url')" :action="variable_get('base_url').'/update/'.$id" class="form" method="post" />
     </div>
   </div>
 </div>

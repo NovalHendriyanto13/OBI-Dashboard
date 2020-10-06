@@ -41048,3 +41048,13 @@ a.bg-twitter:hover, a.bg-twitter:focus, button.bg-twitter:hover, button.bg-twitt
 .spinner {
   display: none;
 }
+
+.preview-image {
+  max-height: 150px;
+  display: none;
+}
+
+.view-image {
+  max-height: 150px;
+  display: block !important;
+}

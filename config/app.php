@@ -235,7 +235,7 @@ return [
     // additional config
     'image_path'=>[
         'thumbnail'=>'images/thumb/',
-        'original'=>'images',
+        'original'=>'images/',
     ],
     'image_size'=>[
         'thumbnail' => [],

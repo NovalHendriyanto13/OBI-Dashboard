@@ -1,5 +1,5 @@
 @php $collections = \Lib\Form::getCollection(); @endphp
-<form id="form-{{$id}}-create" class="needs-validation {{$class}}" action="{{$action}}" novalidate method="{{$method}}" enctype="multipart/form-data">
+<form id="form-{{$id}}-create" class="needs-validation {{$class}}" action="{{$action}}" method="{{$method}}" enctype="multipart/form-data">
 	<x-alert class="alert-form"><div class="alert-msg"></div></x-alert>
 	<div class="align-items-center justify-content-between mg-b-5 mg-lg-b-10 mg-xl-b-15" style="text-align:right;">
 		<x-action-button :route="variable_get('base_url')"/>

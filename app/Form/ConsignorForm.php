@@ -44,17 +44,15 @@ class ConsignorForm extends Form {
 		]);
 		$this->addCollection($npwpNo);
 
-		$identImage = new InputText([
+		$identImage = new InputImage([
 			'name'=>'identity_image',
 			'class'=>'identity_image',
-			'type'=>'file',
 		]);
 		$this->addCollection($identImage);
 
-		$npwpImage = new InputText([
+		$npwpImage = new InputImage([
 			'name'=>'npwp_image',
 			'class'=>'npwp-image',
-			'type'=>'file',
 		]);
 		$this->addCollection($npwpImage);
 
@@ -220,13 +218,13 @@ class ConsignorForm extends Form {
 		$this->addCollection($spklImage, 'Upload Info');
 
 		$firmDomicileImage = new InputImage([
-			'name'=>'firm-domicile_image',
+			'name'=>'firm_domicile_image',
 			'class'=>'firm-domicile-image',
 		]);
 		$this->addCollection($firmDomicileImage, 'Upload Info');
 
 		$companyActImage = new InputImage([
-			'name'=>'company-act_image',
+			'name'=>'company_act_image',
 			'class'=>'company-act-image',
 		]);
 		$this->addCollection($companyActImage, 'Upload Info');

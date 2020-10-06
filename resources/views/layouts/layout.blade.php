@@ -44,6 +44,7 @@
     <script src="{{asset('assets/lib/select2/js/select2.min.js')}}"></script>
     <script src="{{asset('assets/lib/feather-icons/feather.min.js')}}"></script>
     <script src="{{asset('assets/lib/jqueryui/jquery-ui.min.js')}}"></script>
+    <script src="{{asset('assets/lib/perfect-scrollbar/perfect-scrollbar.min.js')}}"></script>
     @yield('js_component')
     @yield('js')
     <script src="{{asset('assets/js/main.js')}}"></script>    

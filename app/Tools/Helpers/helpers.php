@@ -32,3 +32,12 @@ if (! function_exists('set_menu')) {
 		return (Object) $permission->menus;
 	}
 }
+
+if (! function_exists('image_url')) {
+	function image_url($source, $type = 'original') {
+		if ($type == 'original') {
+			return asset(config('app.image_path.original').$source);
+		}
+		return asset(config('app.image_path.thumbnail').$source);
+	}
+}
