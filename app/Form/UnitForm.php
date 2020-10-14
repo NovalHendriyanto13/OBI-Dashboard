@@ -228,6 +228,13 @@ class UnitForm extends Form {
 		]);
 		$this->addCollection($exteriorGrade, 'Info');
 
+		$limitPrice = new InputText([
+			'name'=>'limit_price',
+			'class'=>'limit-price',
+			'type'=>'number',
+		]);
+		$this->addCollection($limitPrice, 'Info');
+
 		parent::initialize($entity, $options);
 	}
 

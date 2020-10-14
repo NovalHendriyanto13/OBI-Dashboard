@@ -144,7 +144,8 @@ $(function () {
 		  showOtherMonths: true,
 		  selectOtherMonths: true,
 		  changeMonth: true,
-		  changeYear: true
+		  changeYear: true,
+		  dateFormat : 'yy-mm-dd',
 		});
     }
 

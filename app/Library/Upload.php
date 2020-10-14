@@ -29,7 +29,8 @@ class Upload {
 				return [
 					'status'=>true,
 					'message'=>'Upload image is success',
-					'image_path'=> $path.'/'.$filename
+					'image_path'=> $path.'/'.$filename,
+					'path'=>$path,
 				];
 			}
 
@@ -37,6 +38,7 @@ class Upload {
 				'status'=>true,
 				'message'=>'Upload image is failed',
 				'image_path'=>'',
+				'path'=>'',
 			];
 		}
 		return [

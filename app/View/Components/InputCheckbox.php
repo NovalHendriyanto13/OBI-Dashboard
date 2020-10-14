@@ -4,7 +4,7 @@ namespace App\View\Components;
 
 use Illuminate\View\Component;
 
-class InputImage extends Component
+class InputCheckbox extends Component
 {
     /**
      * Attributes 
@@ -19,6 +19,9 @@ class InputImage extends Component
      */
     public function __construct(Array $attr)
     {
+        if(!isset($attr['options']))
+            $attr['options'] = [];
+
         $this->_attr = $attr;
     }
 
@@ -29,10 +32,10 @@ class InputImage extends Component
      */
     public function render()
     {
-        if(!isset($this->_attr['value']) && isset($this->_attr['default']))
-            $this->_attr['value'] = $this->_attr['default'];
-        
-        return view('components.input-image',[
+        if(!isset($this->_attr['value']))
+            $this->_attr['value'] = '';
+
+        return view('components.input-checkbox',[
             'attr'=>$this->_attr,
         ]);
     }

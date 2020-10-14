@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use App\Tools\Redis;
 use App\Tools\Variable;
+use Lib\Upload;
 
 use App\Traits\DbTrait;
 

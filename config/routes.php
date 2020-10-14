@@ -9,6 +9,7 @@ $base = [
 	'brand'=>Masters\BrandController::class,
 	'consignor'=>Masters\ConsignorController::class,
 	'unit'=>Masters\UnitController::class,
+	'gallery'=>Masters\GalleryController::class,
 ];
 
 foreach($base as $prefix=>$c) {

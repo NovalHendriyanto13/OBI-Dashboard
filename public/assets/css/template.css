@@ -41058,3 +41058,7 @@ a.bg-twitter:hover, a.bg-twitter:focus, button.bg-twitter:hover, button.bg-twitt
   max-height: 150px;
   display: block !important;
 }
+
+.select2-container {
+  width: 100% !important;
+}

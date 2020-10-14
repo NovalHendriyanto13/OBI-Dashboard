@@ -13,4 +13,5 @@ class BaseTable {
 	const TBL_CONSIGNOR = 'consignor';
 	const TBL_UNIT = 'unit';
 	const TBL_UNIT_TYPE = 'unit_type';
+	const TBL_GALLERY = 'gallery';
 }

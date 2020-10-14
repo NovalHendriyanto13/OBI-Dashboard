@@ -86,6 +86,7 @@ class ConsignorController extends BaseController {
 
 	public function createAction(Request $request) {
 		$data = $request->all();
+
 		// validation
 		$validate = Validator::make($data, $this->validation());
 		if ($validate->fails()) {

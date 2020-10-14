@@ -50,7 +50,7 @@ class InputSelect extends Component
     public function render()
     {
         return view('components.input-select',[
-            'attributes'=>$this->_attr
+            'attr'=>$this->_attr
         ]);
     }
 

@@ -41,3 +41,9 @@ if (! function_exists('image_url')) {
 		return asset(config('app.image_path.thumbnail').$source);
 	}
 }
+
+if (! function_exists('convert_date')) {
+	function convert_date($date, $format='Y-m-d') {
+		return date($format, strtotime($date));
+	}
+}
