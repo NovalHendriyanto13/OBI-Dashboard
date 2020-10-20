@@ -10,6 +10,12 @@ if (! function_exists('variable_get')) {
 	}
 }
 
+if (! function_exists('variable_all')) {
+	function variable_all() {
+		return \App\Tools\Variable::all();
+	}
+}
+
 if (! function_exists('is_root')) {
 	function is_root() {
 		return \App\Tools\Permission::isRoot();

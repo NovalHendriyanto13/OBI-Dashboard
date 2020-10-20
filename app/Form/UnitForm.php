@@ -16,15 +16,23 @@ class UnitForm extends Form {
 	
 	protected function initialize($entity=null, array $options) {
 		$mode = '';
-		if (isset($options['mode']) && $options['mode'] == 'edit')
-			$mode = 'edit';
+		if (isset($options['mode'])) {
+			if ($options['mode'] == 'edit')
+				$mode = 'edit';
+			elseif ($options['mode'] == 'detail')
+				$mode = 'detail';
+		}
 		
+		$defaultCode = date('Ym').str_pad(rand(0,100000),6,"0",STR_PAD_LEFT);
+		if ($mode == 'edit')
+			$defaultCode = $entity->unit_code;
+
 		$code = new InputText([
 			'name'=>'unit_code',
 			'class'=>'unit-code',
 			'type'=>'text',
 			'readonly'=>true,
-			'value'=>date('Ym').str_pad(rand(0,100000),6,"0",STR_PAD_LEFT),
+			'value'=>$defaultCode,
 			'required'=>true,
 		]);
 		$this->addCollection($code);

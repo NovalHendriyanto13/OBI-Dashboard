@@ -118,7 +118,7 @@ class ConsignorController extends BaseController {
 				
 				$upload->setParam($image);
 				$uploadFile = $upload->process('consignor/'.$data['code'], $filename);
-				$data[$image] = $uploadFile['image_path'];
+				$data[$image] = $uploadFile['image'];
 			}
 		}
 
@@ -178,7 +178,7 @@ class ConsignorController extends BaseController {
 				
 				$upload->setParam($image);
 				$uploadFile = $upload->process('consignor/'.$data['code'], $filename);
-				$data[$image] = $uploadFile['image_path'];
+				$data[$image] = $uploadFile['image'];
 			}
 		}
 

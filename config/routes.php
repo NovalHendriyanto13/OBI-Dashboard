@@ -19,6 +19,7 @@ foreach($base as $prefix=>$c) {
 		Route::post('create',['as'=>$prefix.'.create','uses'=>$c.'@createAction']);
 		Route::get('update/{id}',['as'=>$prefix.'.update','uses'=>$c.'@update']);
 		Route::match(['post','put'],'update/{id}',['as'=>$prefix.'.update','uses'=>$c.'@updateAction']);
+		Route::get('detail/{id}',['as'=>$prefix.'.detail','uses'=>$c.'@detail']);
 	});
 }
 
@@ -28,3 +29,5 @@ Route::get('module/get-action/{name}', ['as'=>'module.getAction','uses'=>'Authen
 Route::prefix('setting')->group(function() {
 	Route::get('clear',['as'=>'setting.clear','uses'=>'Setting\SettingController@clear']);
 });
+
+Route::post('gallery/remove-file',['as'=>'gallery.remove','uses'=>'Masters\GalleryController@remove']);

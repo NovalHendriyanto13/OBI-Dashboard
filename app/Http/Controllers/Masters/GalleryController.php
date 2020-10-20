@@ -14,7 +14,7 @@ class GalleryController extends BaseController {
 
 	public function createAction(Request $request) {
 		$data = $request->all();
-
+		
 		// validation
 		$validate = Validator::make($data, $this->validation());
 		if ($validate->fails()) {
@@ -29,7 +29,7 @@ class GalleryController extends BaseController {
 		}
 
 		$upload = new Upload($request);
-		
+		$filename = '';
 		if($request->hasFile('image')) {
 			$file = $data['image'];
 			$rand = rand(1, 1000);
@@ -38,6 +38,7 @@ class GalleryController extends BaseController {
 			$upload->setParam('image');
 			$uploadFile = $upload->process('gallery/'.$data['tablename'].'/'.$data['name'], $filename);
 			$data['original_path'] = $uploadFile['path'];
+			$data['thumb_path'] = $uploadFile['thumb_path'];
 		}
 		$model = $this->_model::where([
 			'name'=>$data['name'],
@@ -55,10 +56,11 @@ class GalleryController extends BaseController {
 
 		if($action) {
 			$request->session()->flash('status', 'Upload Image was successful!');
+			$data['filename'] = $filename;
 			return response()->json([
 				'status'=>true,
 				'data'=>$data,
-				'errors'=>null,
+				'errors'=>[],
 				'redirect'=>false,
 			]);
 		}
@@ -73,11 +75,44 @@ class GalleryController extends BaseController {
 		]);
 	}
 
+	public function remove(Request $request) {
+		$data = $request->all();
+		$filePath = $this->getBasePath($data['file']);
+		$thumbPath = $this->getThumbPath($data['file']);
+		
+		$response = [];
+		if (is_file($filePath)) {
+			if(!unlink($filePath))
+				$response[] = false;
+		}
+		
+		if (is_file($thumbPath)){
+			if(!unlink($thumbPath))
+				$response[] = false;
+		}
+		
+		if (in_array(false, $response)) {
+			return response()->json(['status'=>false]);
+		}
+		return response()->json(['status'=>true]);
+	}
 	protected function validation() {
 		return [
 			'image'=>'image|mimes:jpeg,png,jpg',
 			'name'=>'required',
 		];
+	}
+	private function getBasePath($fileUrl) {
+		$assetUrl = config('app.url');
+		$baseFile = str_replace('thumbnail/','',substr($fileUrl, strlen($assetUrl)));
+
+		return public_path($baseFile);
+	}
+	private function getThumbPath($fileUrl) {
+		$assetUrl = config('app.url');
+		$baseFile = substr($fileUrl, strlen($assetUrl));
+
+		return public_path($baseFile);
 	}
  
 }

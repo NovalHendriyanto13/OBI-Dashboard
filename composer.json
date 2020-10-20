@@ -39,7 +39,7 @@
         ],
         "psr-4": {
             "App\\": "app/",
-            "Lib\\": "app/library"
+            "Lib\\": "app/Library/"
         },
         "classmap": [
             "database/seeds",

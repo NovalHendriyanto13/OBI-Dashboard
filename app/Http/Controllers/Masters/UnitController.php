@@ -87,7 +87,6 @@ class UnitController extends BaseController {
 		$data = [
 			'id'=>$id,
 			'form'=>new $form($model, ['mode'=>'edit']),
-			'galleries'=>$this->loadGallery($id)
 		];
 		
 		return view('masters.unit.update')->with($data);
@@ -98,25 +97,5 @@ class UnitController extends BaseController {
 		dd($data);
 	}
 
-	private function loadGallery($id) {
-		$model = Gallery::where([
-			'tablename'=>'unit',
-			'table_id'=>$id
-		])->first();
-
-		$basePath = public_path(config('app.image_path.original'));
-		$images = [];
-		if ($model) {
-			$path = $basePath.$model->original_path;
-			if (is_dir($path)) {
-				foreach (scandir($path) as $value) {
-					if (!in_array($value, ['.','..'])) {
-						$images[] = $model->original_path.$value;
-					}
-				}
-			}
-		}
-
-		return $images;
-	}
+	
 }

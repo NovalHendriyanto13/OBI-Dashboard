@@ -171,6 +171,18 @@ class BaseController extends Controller {
 		]);
 	}
 
+	public function detail(Request $request, $id) {
+		$model = $this->_model::find($id);
+		$form = $this->setForm();
+		
+		$data = [
+			'id'=>$id,
+			'form' => new $form($model, ['mode'=>'detail']),
+		];
+
+		return view($this->_baseView.'.detail')->with($data);
+	}
+
 	protected function additionalParams(Request $request) { return []; }
 
 	protected function filterParam(Array $data) {

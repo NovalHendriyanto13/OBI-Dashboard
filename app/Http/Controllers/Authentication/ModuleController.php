@@ -64,7 +64,7 @@ class ModuleController extends BaseController {
 		unset($data['_token']);
 
 		$actions = [
-			'index','create','update','delete'
+			'index','create','update','delete','detail'
 		];
 
 		$this->transactionBegin();
