@@ -97,18 +97,26 @@ $(function () {
 				sSearch: '',
 				lengthMenu: '_MENU_ items/page',
 			},
-			// columnDefs: [ {
-			// 	orderable: false,
-			// 	className: 'select-checkbox',
-			// 	targets:   0
-			// } ],
+			columnDefs: [ {
+				orderable: false,
+				className: 'select-checkbox',
+				targets:   0,
+			} ],
 			// select: {
 			// 	style:    'os',
 			// 	selector: 'td:first-child'
 			// },
 		}
 		dataTable.DataTable(dataTableConfig)
-    }
+	}
+	$('#table-checkall').on('click', function(){
+		var rows = $('.table');
+		$('.table-check', rows).prop('checked', this.checked);
+	 });
+	 $('.btn-bulk-actions').click(function(){
+		var val = $('.table-check:checked').val()
+		console.log(val)
+	 })
 
     let select2 = $('.select2')
     if (select2.length > 0) {

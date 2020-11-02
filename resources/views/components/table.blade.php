@@ -4,14 +4,29 @@
 <link rel="stylesheet" href="{{ asset('assets/lib/datatables.net/css/buttons.dataTables.min.css')}}">
 @endsection
 <div data-label="Example" class="df-example demo-table">
-	<table id="table-{{Str::random(10)}}" class="table datatable table-striped table-hover table-sm">
+	@if(count($setting['bulks']) > 0)
+	<div class="row mg-b-5 no-gutters">
+		<div class="col-md-2 offset-md-9">
+			<select name="action_bulk" class="form-control float-right">
+				<option value=""></option>
+				@foreach($setting['bulks'] as $k=>$v)
+				<option value="{{$k}}">{{$v}}</option>
+				@endforeach
+			</select>
+		</div>
+		<div class="col-md-1">
+			<button class="btn btn-secondary btn-bulk-actions">Submit</button>
+		</div>
+	</div>
+	@endif
+	<table id="table-{{Str::random(10)}}" class="table datatable table-striped table-hover">
 	  <thead>
 	    <tr>
 	    	@if(count($setting['bulks']) > 0)
-	    		<!-- <th class="wd-3p">
-	    			<input type="checkbox" name="all" id="table-checkall" class="custom-control-input">
-	    		</th> -->
-	    		<th></th>
+	    		<th>
+	    			<input type="checkbox" name="all" id="table-checkall" class="">
+	    		</th>
+	    		<!-- <th></th> -->
 	    	@endif
 	    	@foreach($setting['columns'] as $s)
 	    		@if($s['visible'] == true)
@@ -28,10 +43,10 @@
 	  	@foreach($data as $d)
 	  	<tr>
 	  		@if(count($setting['bulks']) > 0)
-	    		<!-- <td>
-	    			<input type="checkbox" name="check[]" id="table-check" value="{{$d->id}}" class="custom-control-input">
-	    		</td> -->
-	    		<td></td>
+	    		<td>
+	    			<input type="checkbox" name="check[]" id="table-check" value="{{ $d->id }}" class="table-check"/>
+	    		</td>
+	    		<!-- <td></td> -->
 	    	@endif
 	  		@foreach($setting['columns'] as $s)
 	    		@if($s['visible'] == true)

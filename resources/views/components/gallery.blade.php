@@ -40,13 +40,13 @@
             <h5>Gallery Items</h5>
             <hr/>
             <div class="row">
-                <div class="col-md-3 col-sm-6 text-center" id="div-sample" style="display:none">
+                <div class="col-md-3 col-sm-6 text-center div-sample" id="div-sample" style="display:none">
                     <figure class="pos-relative mg-t-10 mg-b-0 bd bd-3 rounded">
                         <img src="" class="img-fluid img-thumb justify-content-center img-sample" id="img-sample"/>
                         <figcaption class="pos-absolute b-0 l-0 pd-20 d-flex justify-content-center">
                             <div class="btn-group">
-                                <a href="#" class="btn btn-dark btn-icon" data-id="img-sample" download><i data-feather="download"></i></a>
-                                <a href="#" class="btn btn-dark btn-icon gallery-maximize" data-id="img-sample"><i data-feather="maximize-2"></i></a>
+                                <a href="#" class="btn btn-dark btn-icon gallery-download" data-id="img-sample" download><i data-feather="download"></i></a>
+                                <a href="#" class="btn btn-dark btn-icon gallery-maximize" data-toggle="modal" data-id="img-sample"><i data-feather="maximize-2"></i></a>
                                 <a href="#" class="btn btn-dark btn-icon gallery-delete" data-id="sample"><i data-feather="trash-2"></i></a>
                             </div>
                         </figcaption>
@@ -58,7 +58,7 @@
                         <img src="{{asset('images/'.$image)}}" class="img-fluid img-thumb justify-content-center" id="img-{{$k}}"/>
                         <figcaption class="pos-absolute b-0 l-0 pd-20 d-flex justify-content-center">
                             <div class="btn-group">
-                                <a href="{{asset('images/'.Str::of($image)->replace('thumbnail/', ''))}}" class="btn btn-dark btn-icon" data-id="{{$k}}" download><i data-feather="download"></i></a>
+                                <a href="{{asset('images/'.Str::of($image)->replace('thumbnail/', ''))}}" class="btn btn-dark btn-icon gallery-download" data-id="{{$k}}" download><i data-feather="download"></i></a>
                                 <a href="#" class="btn btn-dark btn-icon gallery-maximize" data-id="{{$k}}" data-toggle="modal" data-target="#preview"><i data-feather="maximize-2"></i></a>
                                 <a href="#" class="btn btn-dark btn-icon gallery-delete" data-id="{{$k}}"><i data-feather="trash-2"></i></a>
                             </div>
@@ -88,13 +88,6 @@
 </div>
 @section('js_component')
 <script type="text/javascript">
-$('.gallery-maximize').click(function(e){
-    e.preventDefault()
-    var id = $(this).data('id')
-    var img = $('#'+id).attr('src')
-
-})
-
 $('.gallery-delete').click(function(e){
     e.preventDefault()
     var id = $(this).data('id')
@@ -135,18 +128,23 @@ $('.same').change(function(e){
   $('.btn-upload').click(function(e){
     e.preventDefault()
     var that = $(this)
+    const alert = $('.alert')
+    const alertForm = $('.alert-form')
+    const alertMsg = $('.alert-msg')
+
+    alert.html('')
+    alert.css('display','none')
+
     var url = 'gallery/create'
     var method = 'POST'
     var params = new FormData()
+    
 
     params.append('name', $('#gallery-name').val())
     params.append('image',$('#gallery_item')[0].files[0])
     params.append('tablename',$('#tablename').val())
     params.append('table_id',$('#table_id').val())
 
-    const alert = $('.alert')
-    const alertForm = $('.alert-form')
-    const alertMsg = $('.alert-msg')
     if (typeof(method) === 'undefined') {
       alertMsg.html('Error ! Please provide form method')
       alertForm.css('display','block')
@@ -171,7 +169,6 @@ $('.same').change(function(e){
         $('.spinner').css('display','none')
       },
       success: (res)=> {
-        console.log(res)
         let data = res.data
         if(res.status == true) {
             let randomId = Math.random() * 10
@@ -189,10 +186,45 @@ $('.same').change(function(e){
             var imgClone = clone.find('.img-sample').prop('id', 'img-'+randomId)
                 .attr('src', baseUrl + 'images/'+ data.thumb_path+'/'+data.filename)
                 
-            $('#div-sample').after(clone)  
+            $('#div-sample').after(clone) 
+            // download
+            var imgDownload = clone.find('.gallery-download')
+                .attr('href', baseUrl + 'images/'+data.original_path+'/'+data.filename)
+            
+            // preview
+            var imgPreview = clone.find('.gallery-maximize')
+            imgPreview.on('click', function(e){
+                e.preventDefault()
+                $('#preview').find('#preview-img').attr('src', baseUrl + 'images/'+data.original_path+'/'+data.filename)
+                $('#preview').modal()
+            })
+            // delete
+            var imgDelete = clone.find('.gallery-delete')
+            imgDelete.on('click', function(e){
+                e.preventDefault()
+                var img = baseUrl + 'images/'+ data.thumb_path+'/'+data.filename
+                $.ajax({
+                    url : baseUrl + 'gallery/remove-file',
+                    method : 'post',
+                    data : {
+                        file : img
+                    },
+                    dataType : 'JSON',
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    success : function(res) {
+                        var status = res.status
+                        if (status == true) {
+                            clone.remove()
+                        }
+                    }
+                })
+                return true
+            })
         }
         else {
-            if(res.errors.length > 0) {
+            if(Object.keys(res.errors).length > 0) {
                 if (typeof(res.errors.messages) === 'object') {
                     let errId
                     $.each((res.errors.messages), function(i, v) {
@@ -209,10 +241,10 @@ $('.same').change(function(e){
                     errId.html(errMessage)
                     errId.css('display','block')
                     })
-                    alertMsg.html('Error ! Some errors in your input')
+                    alertForm.html('Error ! Some errors in your input')
                 }
                 else {
-                    alertMsg.html('Error ! ' + res.errors.messages)
+                    alertForm.html('Error ! ' + res.errors.messages)
                 }
             }
           alertForm.css('display','block')
@@ -230,7 +262,9 @@ $('.same').change(function(e){
       var a = e.relatedTarget
       var imgId = '#img-' + $(a).data('id')
       var imgSrc = $(imgId).attr('src')
-      $('#preview-img').attr('src',imgSrc.replace('thumbnail/',''))
+      if (typeof(imgSrc) != 'undefined') {     
+          $('#preview-img').attr('src',imgSrc.replace('thumbnail/',''))
+      }
   })
 </script>
 @endsection
