@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Masters;
 use App\Http\Controllers\BaseController;
 use App\Models\Unit;
 use App\Models\Gallery;
+use App\Models\Mobilization;
 use App\Form\UnitForm;
 use Illuminate\Http\Request;
 
@@ -44,8 +45,8 @@ class UnitController extends BaseController {
 					],
 				],
 				'bulks'=>[
-					0=>'Deactive',
-					1=>'Active'
+					'active:0'=>'Disable',
+					'active:1'=>'Ready',
 				],
 				'grid_actions'=>[
 					[
@@ -79,6 +80,7 @@ class UnitController extends BaseController {
 		$data = [
 			'id'=>$id,
 			'form'=>new $form($model, ['mode'=>'edit']),
+			'mobilization'=>$this->mobilization($id),
 		];
 		
 		return view('masters.unit.update')->with($data);
@@ -145,4 +147,85 @@ class UnitController extends BaseController {
 			]);
 		}
 	}	
+	protected function bulkActions(Request $request) {
+		$req = $request->all();
+		$data = json_decode($req['data']);
+
+		list($action, $value) = explode(':',$req['action']);
+		switch($action) {
+			case 'active':
+				foreach($data as $id) {
+					$update = $this->_model::where('id',$id)->update(['status'=>$value]);
+				}
+			break;
+		}
+	}
+
+	private function mobilization($id) {
+		$model = Mobilization::where('unit_id', $id)->get();
+		return [
+			'model'=> $model,
+			'setting'=>[
+				'table'=>[
+					'columns'=>[
+						[
+							'name'=>'id',
+							'title'=>'ID',
+							'visible'=>false,
+						],
+						[
+							'name'=>'from_date',
+							'title'=>'From Date',
+							'visible'=>true,
+						],
+						[
+							'name'=>'to_date',
+							'title'=>'To Date',
+							'visible'=>true,
+						],
+						[
+							'name'=>'pic_name',
+							'title'=>'Pic Name',
+							'visible'=>true,
+						],
+						[
+							'name'=>'mobilize_from',
+							'title'=>'From',
+							'visible'=>true,
+						],
+						[
+							'name'=>'mobilize_to',
+							'title'=>'From',
+							'visible'=>true,
+						],
+					],
+					'grid_actions'=>[
+						[
+							'icon'=>'edit',
+							'class'=>'btn-primary',
+							'title'=>'Update',
+							'url'=>url($this->_baseUrl.'/mobilization/update'),
+							'allow'=>true
+						],
+						[
+							'icon'=>'detail',
+							'class'=>'btn-primary',
+							'title'=>'Detail',
+							'url'=>url('mobilization/detail'),
+							'allow'=>true
+						],
+					],
+				],
+				'action_buttons'=>[
+					[
+						'icon'=>'plus-circle',
+						'class'=>'btn-primary',
+						'title'=>'Add New',
+						'url'=>url('mobilization/create/'.$id),
+						'type'=>'link',
+					],
+				],
+			]
+		];
+	}
 }

@@ -14,4 +14,5 @@ class BaseTable {
 	const TBL_UNIT = 'unit';
 	const TBL_UNIT_TYPE = 'unit_type';
 	const TBL_GALLERY = 'gallery';
+	const TBL_MOBILIZATION = 'mobilization';
 }

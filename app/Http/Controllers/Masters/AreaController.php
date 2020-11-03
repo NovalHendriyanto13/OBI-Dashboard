@@ -2,6 +2,7 @@
 namespace App\Http\Controllers\Masters;
 
 use App\Http\Controllers\BaseController;
+use Illuminate\Http\Request;
 use App\Models\Area;
 use App\Form\AreaForm;
 
@@ -48,12 +49,8 @@ class AreaController extends BaseController {
 					],
 				],
 				'bulks'=>[
-					[
-						'icon'=>'edit',
-						'class'=>'button_primary',
-						'title'=>'Active',
-						'url'=>url($this->_baseUrl.'/active')
-					],
+					'active:0'=>'Deactive',
+					'active:1'=>'Active'
 				],
 				'grid_actions'=>[
 					[
@@ -78,5 +75,19 @@ class AreaController extends BaseController {
 
 	protected function setForm() {
 		return AreaForm::class;
+	}
+
+	protected function bulkActions(Request $request) {
+		$req = $request->all();
+		$data = json_decode($req['data']);
+
+		list($action, $value) = explode(':',$req['action']);
+		switch($action) {
+			case 'active':
+				foreach($data as $id) {
+					$update = $this->_model::where('id',$id)->update(['status'=>$value]);
+				}
+			break;
+		}
 	}
 }

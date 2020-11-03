@@ -91,7 +91,8 @@ $(function () {
 			dom: 'Bfrtip',
 	        buttons: [
 	            'colvis'
-	        ],
+			],
+			bAutoWidth: false,
 			language: {
 				searchPlaceholder: 'Search...',
 				sSearch: '',
@@ -114,8 +115,33 @@ $(function () {
 		$('.table-check', rows).prop('checked', this.checked);
 	 });
 	 $('.btn-bulk-actions').click(function(){
-		var val = $('.table-check:checked').val()
-		console.log(val)
+		var action = $('select[name=action_bulk]').val()
+		if (action == '')
+			return false;
+
+		var path = window.location.href
+		var checked = []
+		$('.table-check:checked').each(function(){
+			checked.push($(this).val())
+		})
+		$.ajax({
+			url : path,
+			type: 'GET',
+			data: {
+				action: action,
+				data: JSON.stringify(checked),
+			},
+			dataType: 'JSON',
+			success: function(res){
+				console.log(res)
+				if(res.status === true) {
+					if (typeof(res.redirect.page) != 'undefined') {
+						return window.location.href = baseUrl + res.redirect.page
+					}
+				}
+			}
+		})
+		console.log(checked)
 	 })
 
     let select2 = $('.select2')

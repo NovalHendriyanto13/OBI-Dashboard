@@ -25,6 +25,18 @@ class BaseController extends Controller {
 		]);
 	}
 	public function index(Request $request) {
+		if (count($request->all()) > 0 ) {
+			$this->bulkActions($request);
+			return response()->json([
+				'status'=>true,
+				'data'=>$request->all(),
+				'errors'=>null,
+				'redirect'=>[
+					'page'=>$this->_baseUrl
+				],
+			]);
+		}
+
 		$data = [
 			'data'	=> [
 				'model'=>$this->retrieveData($request),
@@ -203,4 +215,6 @@ class BaseController extends Controller {
 	protected function unsetParam() { return []; }
 
 	protected function validation() { return []; }
+
+	protected function bulkActions(Request $request) { }
 }
