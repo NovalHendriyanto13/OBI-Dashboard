@@ -26,6 +26,9 @@ class InputSelect extends Component
 
         if (!array_key_exists('allowEmpty', $attr))
             $attr['allowEmpty'] = false;
+        
+        if(!isset($attr['disabled']))
+            $attr['disabled'] = false;
 
         $attr['options'] = $this->getData();
         $this->_attr = $attr;

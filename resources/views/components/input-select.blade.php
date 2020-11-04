@@ -9,8 +9,9 @@
 	    <select class="form-control select2 @if(isset($attr['class'])) {{$attr['class']}} @endif" 
 	    	name="{{$attr['name']}}" 
 	    	id="{{\Str::lower($attr['name'])}}" 	    	
-	    	@if(isset($attr['ajax-href'])) ajax-to="{{$attr['ajax-href']}}" @endif
-	    	@if(isset($attr['ajax-to'])) ajax-to="{{$attr['ajax-to']}}" @endif>
+	    	@if(isset($attr['ajax-href'])) ajax-href="{{$attr['ajax-href']}}" @endif
+	    	@if(isset($attr['ajax-to'])) ajax-to="{{$attr['ajax-to']}}" @endif
+			@if($attr['disabled'] == true) disabled @endif>
 
 			@if($attr['allowEmpty'])
 			<option value=""> Select One </option>

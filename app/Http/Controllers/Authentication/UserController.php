@@ -79,4 +79,27 @@ class UserController extends BaseController {
 			'password' => Hash::make('otobid123')
 		];
 	}
+
+	public function getName(Request $request) {
+		$data = $request->all();
+		$user = $this->_model::where('id',$data['value'])->first();
+		if ($user) {
+			return response()->json([
+				'status'=>true,
+				'data'=>[
+					'value'=>$user->name,
+				],
+				'errors'=>null,
+				'redirect'=>false,
+			]); 
+		}
+		return response()->json([
+			'status'=>false,
+			'data'=>[],
+			'errors'=>[
+				'messages'=> 'No Users Found',
+			],
+			'redirect'=>false,
+		]); 
+	}
 }

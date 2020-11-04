@@ -10,7 +10,7 @@ $base = [
 	'consignor'=>Masters\ConsignorController::class,
 	'unit'=>Masters\UnitController::class,
 	'gallery'=>Masters\GalleryController::class,
-	'mobilization'=>Masters\Mobilization::class,
+	'mobilization'=>Masters\MobilizationController::class,
 ];
 
 foreach($base as $prefix=>$c) {
@@ -28,14 +28,13 @@ foreach($base as $prefix=>$c) {
 
 // module
 Route::get('module/get-action/{name}', ['as'=>'module.getAction','uses'=>'Authentication\ModuleController@getAction']);
-
 // setting
 Route::prefix('setting')->group(function() {
 	Route::get('clear',['as'=>'setting.clear','uses'=>'Setting\SettingController@clear']);
 });
-
 // gallery
 Route::post('gallery/remove-file',['as'=>'gallery.remove','uses'=>'Masters\GalleryController@remove']);
-
 // mobilization
 Route::get('mobilization/create/{unitId}',['as'=>'mobilization.create','uses'=>'Masters\MobilizationController@createByUnitId']);
+// user
+Route::get('user/get-name',['as'=>'user.get_name','uses'=>'Authentication\UserController@getName']);

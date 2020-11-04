@@ -16,6 +16,7 @@
     <link href="{{asset('assets/lib/@fortawesome/fontawesome-free/css/all.min.css')}}" rel="stylesheet">
     <link href="{{asset('assets/lib/ionicons/css/ionicons.min.css')}}" rel="stylesheet">
     <link href="{{asset('assets/lib/select2/css/select2.min.css')}}" rel="stylesheet">
+    <link href="{{asset('assets/lib/timepicker/jquery.timepicker.min.css')}}" rel="stylesheet">
     
     <!-- Main CSS -->
     <link rel="stylesheet" href="{{asset('assets/css/template.css')}}">
@@ -45,6 +46,7 @@
     <script src="{{asset('assets/lib/feather-icons/feather.min.js')}}"></script>
     <script src="{{asset('assets/lib/jqueryui/jquery-ui.min.js')}}"></script>
     <script src="{{asset('assets/lib/perfect-scrollbar/perfect-scrollbar.min.js')}}"></script>
+    <script src="{{asset('assets/lib/timepicker/jquery.timepicker.min.js')}}"></script>
     @yield('js_component')
     @yield('js')
     <script src="{{asset('assets/js/main.js')}}"></script>    

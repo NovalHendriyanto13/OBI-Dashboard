@@ -8,41 +8,73 @@ use App\View\Components\TextArea;
 use App\View\Components\InputHidden;
 
 use App\Models\Mobilization;
+use App\Models\User;
+use App\Models\Group;
 use App\Models\BaseTable;
 
 class MobilizationForm extends Form {
 	
 	protected function initialize($entity=null, array $options) {
 		$mode = '';
+		$disabled = false;
 		if (isset($options['mode'])) {
 			if ($options['mode'] == 'edit')
 				$mode = 'edit';
-			elseif ($options['mode'] == 'detail')
+			elseif ($options['mode'] == 'detail') {
 				$mode = 'detail';
+				$disabled = true;
+			}			
 		}
-
+		$defaultUnitId = isset($options['unit_id']) ? $options['unit_id'] :'';
+		if (!is_null($entity)) {
+			$defaultUnitId = $entity->unit_id;
+			$entity->from_time = convert_date($entity->from_time, 'H:i');
+			$entity->to_time = convert_date($entity->to_time, 'H:i');
+		}
 		$unitId = new InputHidden([
 			'name'=>'unit_id',
 			'class'=>'unit-id',
 			'type'=>'hidden',
 			'readonly'=>true,
 			'required'=>true,
+			'value'=>$defaultUnitId
 		]);
 		$this->addCollection($unitId);
 		
+		$picId = new InputSelect([
+			'name'=>'pic_id',
+			'class'=>'pic-id ajax-call',
+			'ajax-href'=>url('user/get-name'),
+			'ajax-to'=>'.pic-name',
+			'allowEmpty'=>true,
+			'options'=>$this->getPic(),
+			'disabled'=>$disabled,
+		]);
+		$this->addCollection($picId);
+
+		$picName = new InputText([
+			'name'=>'pic_name',
+			'class'=>'pic-name',
+			'type'=>'text',
+			'required'=>true,
+			'disabled'=>$disabled,
+		]);
+		$this->addCollection($picName);
+
 		$fromDate = new InputText([
 			'name'=>'from_date',
 			'class'=>'from-date datepicker',
 			'type'=>'text',
 			'required'=>true,
+			'disabled'=>$disabled,
 		]);
 		$this->addCollection($fromDate);
 
-		$fromTime = new InputSelect([
+		$fromTime = new InputText([
 			'name'=>'from_time',
-			'class'=>'from-time',
+			'class'=>'from-time timepicker',
 			'allowEmpty'=>true,
-			'options'=>range(00,23),
+			'disabled'=>$disabled,
 		]);
 		$this->addCollection($fromTime);
 
@@ -51,178 +83,94 @@ class MobilizationForm extends Form {
 			'class'=>'to-date datepicker',
 			'required'=>true,
 			'allowEmpty'=>true,
+			'disabled'=>$disabled,
 		]);
 		$this->addCollection($toDate);
+		
+		$toTime = new InputText([
+			'name'=>'to_time',
+			'class'=>'to-time timepicker',
+			'allowEmpty'=>true,
+			'disabled'=>$disabled,
+		]);
+		$this->addCollection($toTime);
 
-		// $area = new InputSelect([
-		// 	'name'=>'area_id',
-		// 	'label'=>'Area',
-		// 	'class'=>'area-id',
-		// 	'required'=>true,
-		// 	'allowEmpty'=>true,
-		// 	'options'=>Area::select('id','name')->get(),
-		// ]);
-		// $this->addCollection($area);
+		$mobilizeFrom = new InputText([
+			'name'=>'mobilize_from',
+			'class'=>'mobilize-from',
+			'label'=>'From',
+			'required'=>true,
+			'disabled'=>$disabled,
+		]);
+		$this->addCollection($mobilizeFrom);
 
-		// $year = new InputText([
-		// 	'name'=>'year',
-		// 	'class'=>'year',
-		// 	'type'=>'number',
-		// ]);
-		// $this->addCollection($year);
+		$mobilizeTo = new InputText([
+			'name'=>'mobilize_to',
+			'class'=>'mobilize-to',
+			'label'=>'To',
+			'required'=>true,
+			'disabled'=>$disabled,
+		]);
+		$this->addCollection($mobilizeTo);
 
-		// $transmission = new InputSelect([
-		// 	'name'=>'transmission',
-		// 	'class'=>'transmission',
-		// 	'label'=>'Transmission',
-		// 	'required'=>true,
-		// 	'allowEmpty'=>true,
-		// 	'options'=>[
-		// 		'MT'=>'Manual',
-		// 		'AT'=>'Matic',
-		// 	],
-		// ]);
-		// $this->addCollection($transmission);
+		$type = new InputSelect([
+			'name'=>'mobilize_type',
+			'class'=>'mobilize-type',
+			'label'=>'Type',
+			'required'=>true,
+			'allowEmpty'=>true,
+			'disabled'=>$disabled,
+			'options'=>[
+				'Drivable',
+				'Towing',
+				'Car Carrier',
+				'Shipping',
+				'Diantar'
+			]
+		]);
+		$this->addCollection($type);
 
-		// $kilometers = new InputText([
-		// 	'name'=>'kilometers',
-		// 	'class'=>'kilometers',
-		// 	'type'=>'number',
-		// ]);
-		// $this->addCollection($kilometers);
+		$parking = new InputText([
+			'name'=>'parking',
+			'class'=>'parking',
+			'disabled'=>$disabled,
+		]);
+		$this->addCollection($parking);
 
-		// $color = new InputText([
-		// 	'name'=>'color',
-		// 	'class'=>'color',
-		// 	'type'=>'text',
-		// ]);
-		// $this->addCollection($color);
+		$reparation = new InputText([
+			'name'=>'reparation',
+			'class'=>'reparation',
+			'disabled'=>$disabled,
+		]);
+		$this->addCollection($reparation);
 
-		// $frame = new InputText([
-		// 	'name'=>'frame_number',
-		// 	'class'=>'frame-number',
-		// 	'type'=>'text',
-		// ]);
-		// $this->addCollection($frame);
+		$subtotal = new InputText([
+			'name'=>'subtotal',
+			'class'=>'subtotal',
+			'disabled'=>$disabled,
+		]);
+		$this->addCollection($subtotal);
 
-		// $machine = new InputText([
-		// 	'name'=>'machine_number',
-		// 	'class'=>'machine_number',
-		// 	'type'=>'text',
-		// ]);
-		// $this->addCollection($machine);
+		$actualFee = new InputText([
+			'name'=>'actual_fee',
+			'class'=>'actual-fee',
+			'disabled'=>$disabled,
+		]);
+		$this->addCollection($actualFee);
 
-		// $cylinder = new InputText([
-		// 	'name'=>'cylinder',
-		// 	'class'=>'cylinder',
-		// 	'type'=>'text',
-		// ]);
-		// $this->addCollection($cylinder);
-
-		// $status = new InputSelect([
-		// 	'name'=>'status',
-		// 	'class'=>'status',
-		// 	'options'=>[
-		// 		1=>'Ready',
-		// 		0=>'Disable',
-		// 		2=>'Sold',
-		// 		3=>'Wanpress',
-		// 	],
-		// ]);
-		// $this->addCollection($status);
-
-		// $internal = new TextArea([
-		// 	'name'=>'internal_info',
-		// 	'class'=>'internal-info',
-		// ]);
-		// $this->addCollection($internal);
-
-		// $information = new TextArea([
-		// 	'name'=>'information',
-		// 	'class'=>'information',
-		// ]);
-		// $this->addCollection($information);
-
-		// $comment = new TextArea([
-		// 	'name'=>'comment',
-		// 	'class'=>'comment',
-		// ]);
-		// $this->addCollection($comment);
-
-		// // info
-		// $bpkb = new InputText([
-		// 	'name'=>'bpkb',
-		// 	'class'=>'bpkb',
-		// 	'type'=>'text',
-		// ]);
-		// $this->addCollection($bpkb, 'Info');
-
-		// $bpkbName = new InputText([
-		// 	'name'=>'bpkb_name',
-		// 	'class'=>'bpkb-name',
-		// 	'type'=>'text',
-		// ]);
-		// $this->addCollection($bpkbName, 'Info');
-
-		// $invoice = new InputText([
-		// 	'name'=>'invoice',
-		// 	'class'=>'invoice',
-		// 	'type'=>'text',
-		// ]);
-		// $this->addCollection($invoice, 'Info');
-
-		// $receipt = new InputText([
-		// 	'name'=>'receipt',
-		// 	'class'=>'receipt',
-		// 	'type'=>'text',
-		// ]);
-		// $this->addCollection($receipt, 'Info');
-
-		// $stnkDate = new InputText([
-		// 	'name'=>'stnk_date',
-		// 	'class'=>'stnk-date datepicker',
-		// 	'type'=>'text',
-		// ]);
-		// $this->addCollection($stnkDate, 'Info');
-
-		// $taxDate = new InputText([
-		// 	'name'=>'tax_date',
-		// 	'class'=>'tax-date datepicker',
-		// 	'type'=>'text',
-		// ]);
-		// $this->addCollection($taxDate, 'Info');
-
-		// $machineGrade = new InputSelect([
-		// 	'name'=>'machine_grade',
-		// 	'class'=>'machine-grade',
-		// 	'allowEmpty'=>true,
-		// 	'options'=>$this->getGrade(),
-		// ]);
-		// $this->addCollection($machineGrade, 'Info');
-
-		// $interiorGrade = new InputSelect([
-		// 	'name'=>'interior_grade',
-		// 	'class'=>'interior-grade',
-		// 	'allowEmpty'=>true,
-		// 	'options'=>$this->getGrade(),
-		// ]);
-		// $this->addCollection($interiorGrade, 'Info');
-
-		// $exteriorGrade = new InputSelect([
-		// 	'name'=>'exterior_grade',
-		// 	'class'=>'exterior-grade',
-		// 	'allowEmpty'=>true,
-		// 	'options'=>$this->getGrade(),
-		// ]);
-		// $this->addCollection($exteriorGrade, 'Info');
-
-		// $limitPrice = new InputText([
-		// 	'name'=>'limit_price',
-		// 	'class'=>'limit-price',
-		// 	'type'=>'number',
-		// ]);
-		// $this->addCollection($limitPrice, 'Info');
+		$information = new TextArea([
+			'name'=>'information',
+			'class'=>'information',
+			'readonly'=>$disabled,
+		]);
+		$this->addCollection($information);
 
 		parent::initialize($entity, $options);
+	}
+	private function getPic() {
+		$group = Group::where('name','admin')->first();
+		return User::select('id', 'name')
+			->where(['group_id'=>$group->id])
+			->get();
 	}
 }

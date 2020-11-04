@@ -204,11 +204,11 @@ class UnitController extends BaseController {
 							'icon'=>'edit',
 							'class'=>'btn-primary',
 							'title'=>'Update',
-							'url'=>url($this->_baseUrl.'/mobilization/update'),
+							'url'=>url('mobilization/update'),
 							'allow'=>true
 						],
 						[
-							'icon'=>'detail',
+							'icon'=>'book-open',
 							'class'=>'btn-primary',
 							'title'=>'Detail',
 							'url'=>url('mobilization/detail'),

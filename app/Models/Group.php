@@ -10,7 +10,13 @@ class Group extends Model {
      * @var string
      */
     protected $table = BaseTable::TBL_GROUP; 
-
+    /**
+	 * The attributes that aren't mass assignable.
+	 *
+	 * @var array
+	 */
+    protected $guarded = [];
+    
     public function menu() {
     	return $this->hasToMany('App\Models\Menu','permission','group_id','menu_id');
     }

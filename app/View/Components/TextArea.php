@@ -21,6 +21,9 @@ class TextArea extends Component
     {
         if(!isset($attr['readonly']))
             $attr['readonly'] = false;
+        
+        if(!isset($attr['disabled']))
+            $attr['disabled'] = false;
 
         $this->_attr = $attr;
     }

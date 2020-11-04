@@ -12,7 +12,8 @@
 			name="{{$attr['name']}}"
 			value="{{isset($attr['value']) ? $attr['value'] : ''}}"
 			id="{{\Str::lower($attr['name'])}}"
-			@if($attr['readonly'] == true) readonly @endif>
+			@if($attr['readonly'] == true) readonly @endif
+			@if($attr['disabled'] == true) disabled @endif>
 
 		<x-alert class="alert-element mg-t-5" id="{{$attr['name']}}-errors"></x-alert>
 	</div>

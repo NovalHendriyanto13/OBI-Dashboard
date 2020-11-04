@@ -155,17 +155,37 @@ $(function () {
 
     let ajaxCall = $('select.ajax-call')
     if (ajaxCall.length > 0) {
-    	ajaxCall.change((e)=>{
+    	ajaxCall.change(function(e){
     		e.preventDefault();
     		let that = $(this)
     		let to = that.attr('ajax-to')
     		let href = that.attr('ajax-href')
-    		
-    		$.ajax({
+			let lenBaseUrl = baseUrl.length;
+
+			$.ajax({
     			url : href,
-    			type: 'GET',
-    			success:(data) => {
-    				console.log(data)
+				type: 'GET',
+				data: {
+					value:that.val()
+				},
+    			success:(res) => {
+    				if (to.substring(0, lenBaseUrl) == baseUrl) {
+						window.location.href = to
+					}
+					else {
+						if (typeof(res.data.value)=='undefined') {
+							$(to).removeAttr('readonly')
+							$(to).val('')
+						}
+						else {
+							if (res.data.value != '') {
+								$(to).val(res.data.value)
+								$(to).attr('readonly', true)
+								return true
+							}
+						}
+					}
+					return true;
     			}
     		})
 
@@ -215,5 +235,20 @@ $(function () {
     		$(this).css('display','none')
 
 	   })
-    }
+	}
+	
+	let timepicker = $('.timepicker');
+	if (timepicker.length > 0) {
+		var dt = new Date()
+		var defaultTime = dt.getHours() + ":00"
+		timepicker.timepicker({
+			timeFormat: 'HH:mm',
+			interval: 30,
+			startTime: '09:00',
+			// defaultTime: defaultTime,
+			dynamic: false,
+			dropdown: true,
+			scrollbar: true
+		})
+	}
 });
