@@ -35,16 +35,24 @@ class Form extends Component
     public $method;
 
     /**
+     * action buttons.
+     *
+     * @var array
+     */
+    public $actionButtons;
+
+    /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct($id, $class, $action, $method='post')
+    public function __construct($id, $class, $action, $method='post', $actionButtons=[])
     {
         $this->id = $id;
         $this->class = $class;
         $this->action = $action;
         $this->method = $method;
+        $this->actionButtons = $actionButtons;
     }
 
     /**

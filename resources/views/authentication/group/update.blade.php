@@ -12,7 +12,7 @@
   
   <div class="row row-xs">
     <div class="col-md-12 col-xs-12">
-      <x-form :id="variable_get('base_url')" :action="variable_get('base_url').'/update/'.$id" class="form" method="put">
+      <x-form :id="variable_get('base_url')" :action="variable_get('base_url').'/update/'.$id" class="form" method="post">
         <x-slot name="additionalTabTitle">
             <li class="nav-item">
               <a class="nav-link" id="permission-tab" data-toggle="tab" href="#permission" role="tab" aria-controls="home" aria-selected="true">Permission</a>

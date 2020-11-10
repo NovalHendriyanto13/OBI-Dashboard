@@ -21,7 +21,7 @@ class ActionButton extends Component
      *
      * @return void
      */
-    public function __construct($setting=[], $route='/')
+    public function __construct($setting=[], $route='home')
     {
         $this->route = $route;
         if (count($setting) <= 0)

@@ -10,6 +10,10 @@ use App\View\Components\InputHidden;
 use App\Models\Mobilization;
 use App\Models\User;
 use App\Models\Group;
+use App\Models\Consignor;
+use App\Models\UnitType;
+use App\Models\Area;
+use App\Models\Unit;
 use App\Models\BaseTable;
 
 class MobilizationForm extends Form {
@@ -164,6 +168,9 @@ class MobilizationForm extends Form {
 			'readonly'=>$disabled,
 		]);
 		$this->addCollection($information);
+		
+		// unit
+		$this->getUnit($defaultUnitId);
 
 		parent::initialize($entity, $options);
 	}
@@ -172,5 +179,140 @@ class MobilizationForm extends Form {
 		return User::select('id', 'name')
 			->where(['group_id'=>$group->id])
 			->get();
+	}
+	private function getUnit($id) {
+		$unit = Unit::find($id);
+		$code = new InputText([
+			'name'=>'unit_code',
+			'class'=>'unit-code',
+			'type'=>'text',
+			'disabled'=>true,
+			'value'=>$unit->unit_code,
+		]);
+		$this->addCollection($code, 'Unit Info');
+		
+		$policeNo = new InputText([
+			'name'=>'police_number',
+			'class'=>'police-number',
+			'type'=>'text',
+			'disabled'=>true,
+			'value'=>$unit->police_number,
+		]);
+		$this->addCollection($policeNo, 'Unit Info');
+
+		$consignor = new InputSelect([
+			'name'=>'consignor_id',
+			'label'=>'Consignor',
+			'class'=>'consignor-id',
+			'allowEmpty'=>true,
+			'options'=>Consignor::select('id','name')->get(),
+			'disabled'=>true,
+			'value'=>$unit->consignor_id,
+		]);
+		$this->addCollection($consignor, 'Unit Info');
+
+		$unitType = new InputSelect([
+			'name'=>'unit_type_id',
+			'label'=>'Unit Type',
+			'class'=>'unit-type-id',
+			'disabled'=>true,
+			'allowEmpty'=>true,
+			'options'=>UnitType::select('id','name')->get(),
+			'value'=>$unit->unit_type_id,
+		]);
+		$this->addCollection($unitType, 'Unit Info');
+
+		$area = new InputSelect([
+			'name'=>'area_id',
+			'label'=>'Area',
+			'class'=>'area-id',
+			'disabled'=>true,
+			'allowEmpty'=>true,
+			'options'=>Area::select('id','name')->get(),
+			'value'=>$unit->area_id,
+		]);
+		$this->addCollection($area, 'Unit Info');
+
+		$year = new InputText([
+			'name'=>'year',
+			'class'=>'year',
+			'type'=>'number',
+			'disabled'=>true,
+			'value'=>$unit->year,
+		]);
+		$this->addCollection($year, 'Unit Info');
+
+		$transmission = new InputSelect([
+			'name'=>'transmission',
+			'class'=>'transmission',
+			'label'=>'Transmission',
+			'disabled'=>true,
+			'allowEmpty'=>true,
+			'value'=>$unit->transmission,
+			'options'=>[
+				'MT'=>'Manual',
+				'AT'=>'Matic',
+			],
+		]);
+		$this->addCollection($transmission, 'Unit Info');
+
+		$kilometers = new InputText([
+			'name'=>'kilometers',
+			'class'=>'kilometers',
+			'type'=>'number',
+			'disabled'=>true,
+			'value'=>$unit->kilometers,
+		]);
+		$this->addCollection($kilometers, 'Unit Info');
+
+		$color = new InputText([
+			'name'=>'color',
+			'class'=>'color',
+			'type'=>'text',
+			'disabled'=>true,
+			'value'=>$unit->color,
+		]);
+		$this->addCollection($color, 'Unit Info');
+
+		$frame = new InputText([
+			'name'=>'frame_number',
+			'class'=>'frame-number',
+			'type'=>'text',
+			'disabled'=>true,
+			'value'=>$unit->frame,
+		]);
+		$this->addCollection($frame, 'Unit Info');
+
+		$machine = new InputText([
+			'name'=>'machine_number',
+			'class'=>'machine_number',
+			'type'=>'text',
+			'disabled'=>true,
+			'value'=>$unit->machine,
+		]);
+		$this->addCollection($machine, 'Unit Info');
+
+		$cylinder = new InputText([
+			'name'=>'cylinder',
+			'class'=>'cylinder',
+			'type'=>'text',
+			'disabled'=>true,
+			'value'=>$unit->cylinder,
+		]);
+		$this->addCollection($cylinder, 'Unit Info');
+
+		$status = new InputSelect([
+			'name'=>'status',
+			'class'=>'status',
+			'disabled'=>true,
+			'value'=>$unit->status,
+			'options'=>[
+				1=>'Ready',
+				0=>'Disable',
+				2=>'Sold',
+				3=>'Wanpress',
+			],
+		]);
+		$this->addCollection($status, 'Unit Info');
 	}
 }

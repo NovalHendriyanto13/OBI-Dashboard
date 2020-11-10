@@ -102,7 +102,42 @@ class MobilizationController extends BaseController {
 			],
 			'redirect'=>false,
 		]);
-    }
+	}
+	
+	public function detail(Request $request, $id) {
+		$model = $this->_model::find($id);
+		$form = $this->setForm();
+		
+		$data = [
+			'id'=>$id,
+			'form' => new $form($model, ['mode'=>'detail']),
+			'action_buttons'=> [
+				[
+					'icon'=>'list',
+					'class'=>'btn-dark',
+					'title'=>'List',
+					'url'=>route('unit.update', ['id'=>$model->unit_id]),
+					'type'=>'link',
+				],
+				[
+					'icon'=>'plus-circle',
+					'class'=>'btn-success',
+					'title'=>'Create',
+					'url'=>route($this->_baseUrl.'.create',['unitId'=>$model->unit_id]),
+					'type'=>'link'
+				],
+				[
+					'icon'=>'edit',
+					'class'=>'btn-info',
+					'title'=>'Update',
+					'url'=>route($this->_baseUrl.'.update', ['id'=>$id]),
+					'type'=>'link'
+				],
+			]
+		];
+
+		return view($this->_baseView.'.detail')->with($data);
+	}
     
     protected function validation() {
         return [

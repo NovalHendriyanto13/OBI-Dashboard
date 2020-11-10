@@ -23,10 +23,7 @@ $(function () {
 		 * used for additional parameter and not in form generated
 		 */
 		if (typeof(additionalParams) != 'undefined') {
-			params[params.length] = { 
-				name : 'additional',
-				value: additionalParams 
-			}
+			params.append('additional', additionalParams)
 		}
 
 		$.ajax({
