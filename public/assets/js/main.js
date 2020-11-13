@@ -18,7 +18,7 @@ $(function () {
 			alertForm.css('display','block')
 			return false;
 		}
-
+		alert.css('display','none');
 		/*
 		 * used for additional parameter and not in form generated
 		 */

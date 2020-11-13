@@ -28,9 +28,8 @@
 			value="{{isset($attr['value']) ? $attr['value'] : ''}}"
 			id="{{\Str::lower($attr['name'])}}"
 		/>
-		<!-- <input name="{{$attr['name']}}" type="hidden" value="{{isset($attr['value']) ? $attr['value'] : ''}}"> -->
+		<input name="{{$attr['name']}}" type="hidden" value="{{isset($attr['value']) ? $attr['value'] : ''}}">
 
 		<x-alert class="alert-element mg-t-5" id="{{$attr['name']}}-errors"></x-alert>
 	</div>
-	<!-- <div class="valid-feedback">Looks good!</div> -->
 </div>

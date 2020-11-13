@@ -1,17 +1,20 @@
 <?php
-namespace App\Http\Controllers\Masters;
+namespace App\Http\Controllers\Userlist;
 
 use App\Http\Controllers\BaseController;
-use App\Models\Consignor;
-use App\Form\ConsignorForm;
+use App\Models\Bidder;
+use App\Models\User;
+use App\Models\Group;
+use App\Form\BidderForm;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Hash;
 use Lib\Upload;
 
-class ConsignorController extends BaseController {
-	protected $_baseUrl = 'consignor';
-	protected $_title = 'Consignor';
-	protected $_model = Consignor::class;
+class BidderController extends BaseController {
+	protected $_baseUrl = 'bidder';
+	protected $_title = 'Bidder';
+	protected $_model = Bidder::class;
 
 	protected function indexData() {
 		return [
@@ -23,13 +26,8 @@ class ConsignorController extends BaseController {
 						'visible'=>false,
 					],
 					[
-						'name'=>'code',
-						'title'=>'Consignor Code',
-						'visible'=>true,
-					],
-					[
-						'name'=>'name',
-						'title'=>'Consignor',
+						'name'=>'first_name',
+						'title'=>'Name',
 						'visible'=>true,
 					],
 					[
@@ -38,8 +36,8 @@ class ConsignorController extends BaseController {
 						'visible'=>true,
 					],
 					[
-						'name'=>'pic',
-						'title'=>'PIC',
+						'name'=>'phone_no',
+						'title'=>'Phone',
 						'visible'=>true,
 					],
 				],
@@ -65,22 +63,22 @@ class ConsignorController extends BaseController {
 	}
 
 	protected function setForm() {
-		return ConsignorForm::class;
+		return BidderForm::class;
 	}
 
 	protected function validation() {
 		return [
-			'code'=>'required',
-			'name'=>'required',
-			'phone_no'=>'required',
-			'address'=>'required',
-			'identity_image'=>'image|mimes:jpeg,png,jpg',
-			'npwp_image'=>'image|mimes:jpeg,png,jpg',
-			'spk_image'=>'image|mimes:jpeg,png,jpg',
-			'spkl_image'=>'image|mimes:jpeg,png,jpg',
-			'siup_image'=>'image|mimes:jpeg,png,jpg',
-			'firm_domicile_image'=>'image|mimes:jpeg,png,jpg',
-			'company_act_image'=>'image|mimes:jpeg,png,jpg',
+            'first_name'=>'required',
+            'phone_no'=>'required',
+            'address'=>'required',
+            'email'=>'required',
+            'identity_image'=>'image|mimes:jpeg,png,jpg|required',
+            'identity_type'=>'required',
+            'identity_no'=>'required',
+            'account_bank'=>'required',
+            'account_name'=>'required',
+            'account_no'=>'required',
+            'account_branch'=>'required',
 		];
 	}
 
@@ -102,12 +100,6 @@ class ConsignorController extends BaseController {
 		
 		$images = [
 			'identity_image',
-			'npwp_image',
-			'spk_image',
-			'spkl_image',
-			'siup_image',
-			'firm_domicile_image',
-			'company_act_image',
 		];
 		
 		$upload = new Upload($request);
@@ -117,13 +109,15 @@ class ConsignorController extends BaseController {
 				$filename = $image.'.'.$file->getClientOriginalExtension();
 				
 				$upload->setParam($image);
-				$uploadFile = $upload->process('consignor/'.$data['code'], $filename);
+				$uploadFile = $upload->process('bidder/'.$data['identity_no'], $filename);
 				$data[$image] = $uploadFile['image'];
 			}
 		}
 
-		if($this->_model::create($data)) {
-			
+		if($insertId = $this->_model::create($data)) {
+            // upsert to user
+            $this->upsertUser($data,$insertId);
+
 			$request->session()->flash('status', 'Insert was successful!');
 			return response()->json([
 				'status'=>true,
@@ -147,7 +141,6 @@ class ConsignorController extends BaseController {
 
 	public function updateAction(Request $request, $id) {
 		$data = $request->all();
-
 		// validation
 		$validate = Validator::make($data, $this->validation());
 		if ($validate->fails()) {
@@ -163,12 +156,6 @@ class ConsignorController extends BaseController {
 
 		$images = [
 			'identity_image',
-			'npwp_image',
-			'spk_image',
-			'spkl_image',
-			'siup_image',
-			'firm_domicile_image',
-			'company_act_image',
 		];
 		$upload = new Upload($request);
 		foreach ($images as $image) {
@@ -177,7 +164,7 @@ class ConsignorController extends BaseController {
 				$filename = $image.'.'.$file->getClientOriginalExtension();
 				
 				$upload->setParam($image);
-				$uploadFile = $upload->process('consignor/'.$data['code'], $filename);
+				$uploadFile = $upload->process('bidder/'.$data['identity_no'], $filename);
 				$data[$image] = $uploadFile['image'];
 			}
 		}
@@ -189,6 +176,9 @@ class ConsignorController extends BaseController {
 				$uploadClass = new Upload;
 				$uploadClass->removeFile($latestData->$image);
 			}
+
+            // upsert to user
+            $this->upsertUser($data,$insertId);
 
 			$request->session()->flash('status', 'Update was successful!');
 			return response()->json([
@@ -209,5 +199,19 @@ class ConsignorController extends BaseController {
 			],
 			'redirect'=>false,
 		]);
-	}
+    }
+    
+    private function upsertUser($data, $id) {
+        $group = Group::firstWhere('name','user');
+
+        return User::updateOrCreate([
+            'bidder_id'=>$id
+        ], [
+            'username'=>$data['email'],
+            'name'=>$data['first_name'].' '.$data['last_name'],
+            'email'=>$data['email'],
+            'group_id'=>$group->id,
+            'password'=>Hash::make('otobid123')
+        ]);
+    }
 }
