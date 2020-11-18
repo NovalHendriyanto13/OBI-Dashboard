@@ -65,6 +65,7 @@ class BaseController extends Controller {
 		
 		$data = [
 			'form' => new $form,
+			'action_buttons'=>[]
 		];
 		return view($this->_baseView.'.create')->with($data);
 	}

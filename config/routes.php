@@ -7,10 +7,12 @@ $base = [
 	'permission'=>Authentication\PermissionController::class,
 	'area'=>Masters\AreaController::class,
 	'brand'=>Masters\BrandController::class,
-	'consignor'=>Masters\ConsignorController::class,
 	'unit'=>Masters\UnitController::class,
 	'gallery'=>Masters\GalleryController::class,
 	'mobilization'=>Masters\MobilizationController::class,
+	'bidder'=>Userlist\BidderController::class,
+	'consignor'=>Userlist\ConsignorController::class,
+	'auction'=>Auctions\AuctionController::class,
 ];
 
 foreach($base as $prefix=>$c) {

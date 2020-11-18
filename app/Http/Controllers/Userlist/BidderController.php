@@ -19,6 +19,7 @@ class BidderController extends BaseController {
 	protected function indexData() {
 		return [
 			'table'=>[
+				'searchable'=>true,
 				'columns'=>[
 					[
 						'name'=>'id',
@@ -29,16 +30,25 @@ class BidderController extends BaseController {
 						'name'=>'first_name',
 						'title'=>'Name',
 						'visible'=>true,
+						'search'=>[
+							'type'=>'text'
+						]
 					],
 					[
 						'name'=>'email',
 						'title'=>'Email',
 						'visible'=>true,
+						'search'=>[
+							'type'=>'text'
+						]
 					],
 					[
 						'name'=>'phone_no',
 						'title'=>'Phone',
 						'visible'=>true,
+						'search'=>[
+							'type'=>'text'
+						]
 					],
 				],
 				'grid_actions'=>[
@@ -178,7 +188,7 @@ class BidderController extends BaseController {
 			}
 
             // upsert to user
-            $this->upsertUser($data,$insertId);
+            $this->upsertUser($data,$id);
 
 			$request->session()->flash('status', 'Update was successful!');
 			return response()->json([

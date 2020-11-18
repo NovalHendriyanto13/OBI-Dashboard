@@ -4,6 +4,24 @@
 <link rel="stylesheet" href="{{ asset('assets/lib/datatables.net/css/buttons.dataTables.min.css')}}">
 @endsection
 <div data-label="Example" class="df-example demo-table">
+	@if(count($filters) > 0 )
+	<div class="collapse m-b-10" id="advance-filter-form">
+		<div class="row">
+			<div class="col-md-12 m-b-5">
+				<label><h6>Search</h6></label>
+			</div>
+			@foreach($filters as $f)
+			<div class="col-md-3">
+				<div class="form-group">
+					@if(in_array(trim($f['type']), ['text','email','number']))
+					<input name="{{$f['name']}}" type="{{$f['type']}}" class="form-control input-filter" placeholder="{{\Str::title($f['name'])}}">
+					@endif
+				</div>
+			</div>
+			@endforeach
+		</div>
+	</div>
+	@endif
 	@if(count($setting['bulks']) > 0)
 	<div class="row mg-b-5 no-gutters">
 		<div class="col-md-2 offset-md-9">
@@ -19,7 +37,7 @@
 		</div>
 	</div>
 	@endif
-	<table id="table-{{Str::random(10)}}" class="table datatable table-striped table-hover">
+	<table id="table-{{Str::random(10)}}" class="table datatable table-striped table-hover" data-searchable="{{count($filters)}}">
 	  <thead>
 	    <tr>
 	    	@if(count($setting['bulks']) > 0)

@@ -28,7 +28,10 @@ class Table extends Component
     public function __construct($model, $setting=[])
     {
         if(!array_key_exists('bulks', $setting))
-            $setting['bulks'] = [];  
+            $setting['bulks'] = [];
+        
+        if(!array_key_exists('searchable', $setting))
+            $setting['searchable'] = false;
 
         $this->model = $model;
         $this->setting = $setting;
@@ -54,6 +57,22 @@ class Table extends Component
         return $this->setting;
     }
 
+    private function setFilters() {
+        if (!$this->setting['searchable'])
+            return [];
+
+        $filters = [];
+        foreach($this->setting['columns'] as $f) {
+            if (isset($f['search'])) {
+                $filters[] = [
+                    'name'=>$f['name'],
+                    'type'=>$f['search']['type']
+                ];
+            }
+        }
+        return $filters;
+    }
+
     /**
      * Get the view / contents that represent the component.
      *
@@ -61,9 +80,13 @@ class Table extends Component
      */
     public function render()
     {
+        $setting = $this->getSetting();
+        $filters = $this->setFilters();
+        
         return view('components.table',[
-            'setting'=>$this->getSetting(),
+            'setting'=>$setting,
             'data'=>$this->model,
+            'filters'=>$filters
         ]);
     }
 }

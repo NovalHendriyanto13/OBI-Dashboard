@@ -10,8 +10,11 @@ class UserForm extends Form {
 	
 	protected function initialize($entity=null, array $options) {
 		$mode = '';
-		if (isset($options['mode']) && $options['mode'] == 'edit')
+		$disabled = false;
+		if (isset($options['mode']) && $options['mode'] == 'edit'){
 			$mode = 'edit';
+			$disabled = true;
+		}
 
 		$name = new InputText([
 			'name'=>'name',
@@ -26,6 +29,7 @@ class UserForm extends Form {
 			'class'=>'username',
 			'type'=>'text',
 			'required'=>true,
+			'readonly'=>$disabled
 		]);
 		$this->addCollection($username);
 
@@ -33,6 +37,7 @@ class UserForm extends Form {
 			'name'=>'email',
 			'type'=>'email',
 			'required'=>true,
+			'readonly'=>$disabled
 		]);
 		$this->addCollection($email);
 		

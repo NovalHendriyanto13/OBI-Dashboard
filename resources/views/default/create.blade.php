@@ -12,7 +12,7 @@
   
   <div class="row row-xs">
     <div class="col-md-12 col-xs-12">
-      <x-form :id="variable_get('base_url')" :action="variable_get('base_url').'/create'" class="form" method="post" />
+      <x-form :id="variable_get('base_url')" :action="variable_get('base_url').'/create'" class="form" method="post" :action_buttons="$action_buttons" />
     </div>
   </div>
 </div>

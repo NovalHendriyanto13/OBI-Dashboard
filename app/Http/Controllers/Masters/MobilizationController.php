@@ -17,6 +17,21 @@ class MobilizationController extends BaseController {
 		
 		$data = [
 			'form' => new $form(null, ['unit_id'=>$unitId]),
+			'action_buttons'=>[
+				[
+					'icon'=>'x-circle',
+					'class'=>'btn-white',
+					'title'=>'Cancel',
+					'url'=>route('unit.update',['id'=>$unitId]),
+					'type'=>'link',
+				],
+				[
+					'icon'=>'check-circle',
+					'class'=>'btn-primary',
+					'title'=>'Submit',
+					'type'=>'button'
+				],
+			]
 		];
 		return view($this->_baseView.'.create')->with($data);
     }

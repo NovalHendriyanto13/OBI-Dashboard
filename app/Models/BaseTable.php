@@ -16,4 +16,5 @@ class BaseTable {
 	const TBL_GALLERY = 'gallery';
 	const TBL_MOBILIZATION = 'mobilization';
 	const TBL_BIDDER = 'bidder';
+	const TBL_AUCTION = 'auction';
 }
