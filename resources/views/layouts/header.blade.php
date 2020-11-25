@@ -137,8 +137,8 @@
         <h6 class="tx-semibold mg-b-5">{{ session('user')->name }}</h6>
         <p class="mg-b-25 tx-12 tx-color-03">{{ \Str::upper(session('group')->name) }}</p>
 
-        <a href="{{URL::to('user/update/'.session('group')->id)}}" class="dropdown-item"><i data-feather="edit-3"></i> Edit Profile</a>
-        <a href="{{URL::to('user/detail/'.session('group')->id)}}" class="dropdown-item"><i data-feather="user"></i> View Profile</a>
+        <a href="" class="dropdown-item"><i data-feather="edit-3"></i> Edit Profile</a>
+        <a href="" class="dropdown-item"><i data-feather="user"></i> View Profile</a>
         <div class="dropdown-divider"></div>
         
         <a href="" class="dropdown-item"><i data-feather="settings"></i>Account Settings</a>

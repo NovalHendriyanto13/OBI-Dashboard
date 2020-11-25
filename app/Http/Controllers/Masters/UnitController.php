@@ -7,6 +7,7 @@ use App\Models\Gallery;
 use App\Models\Mobilization;
 use App\Form\UnitForm;
 use Illuminate\Http\Request;
+use App\Tools\DataTable;
 
 class UnitController extends BaseController {
 	protected $_baseUrl = 'unit';
@@ -162,11 +163,10 @@ class UnitController extends BaseController {
 	}
 
 	private function mobilization($id) {
-		$model = Mobilization::where('unit_id', $id)->get();
 		return [
-			'model'=> $model,
 			'setting'=>[
 				'table'=>[
+					'source'=>'mobilization/list-byunit/'.$id,
 					'columns'=>[
 						[
 							'name'=>'id',

@@ -33,7 +33,7 @@
                     <x-action-button :setting="$mobilization['setting']['action_buttons']"/>
                   @endif
                 </div>
-                <x-table :model="$mobilization['model']" :setting="$mobilization['setting']['table']" style="width:100% !important"/>
+                <x-table :setting="$mobilization['setting']['table']" style="width:100% !important"/>
               </div>
             </div>
           </div>

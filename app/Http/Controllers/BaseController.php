@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use App\Tools\DataTable;
+
 use App\Tools\Redis;
 use App\Tools\Variable;
 use Lib\Upload;
@@ -36,23 +38,24 @@ class BaseController extends Controller {
 				],
 			]);
 		}
-
 		$data = [
 			'data'	=> [
-				'model'=>$this->retrieveData($request),
 				'setting'=>$this->indexData(),
 			],
 		];
 		return view($this->_baseView.'.index')->with($data);
 	}
 
-	protected function retrieveData(Request $request) {
+	public function dataList(Request $request) {
 		if (is_null($this->_model))
 			return [];
 
-		return $this->_model::get();
-	}
+		$setting = $this->indexData();
+		$model = $this->_model::get();
 
+		return DataTable::build($model, $setting)->make(true);
+	}
+	
 	protected function indexData() {
 		return [
 			'table'=>[],

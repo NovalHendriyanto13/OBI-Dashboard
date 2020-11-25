@@ -176,7 +176,8 @@ return [
         App\Providers\RouteServiceProvider::class,
 
         'Intervention\Image\ImageServiceProvider',
-
+        Yajra\Datatables\DatatablesServiceProvider::class,
+        Yajra\DataTables\FractalServiceProvider::class
     ],
 
     /*
@@ -229,7 +230,6 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'Image' => 'Intervention\Image\Facades\Image',
-
     ],
     'email_support'=>env('EMAIL_SUPPORT'),
     // additional config

@@ -8,7 +8,7 @@
       <x-action-button :setting="$data['setting']['action_buttons']"/>
     @endif
   </div>
-  <x-table :model="$data['model']" :setting="$data['setting']['table']"/>
+  <x-table :setting="$data['setting']['table']"/>
 </div>
 
 @endsection

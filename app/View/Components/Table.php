@@ -7,12 +7,6 @@ use Illuminate\View\Component;
 class Table extends Component
 {
     /**
-     * Model
-     *
-     * @var object
-     */
-    public $model;
-    /**
      * Setting
      *
      * @var array
@@ -25,7 +19,7 @@ class Table extends Component
      *
      * @return void
      */
-    public function __construct($model, $setting=[])
+    public function __construct($setting=[])
     {
         if(!array_key_exists('bulks', $setting))
             $setting['bulks'] = [];
@@ -33,24 +27,15 @@ class Table extends Component
         if(!array_key_exists('searchable', $setting))
             $setting['searchable'] = false;
 
-        $this->model = $model;
+        if(!array_key_exists('source', $setting))
+            $setting['source'] = \Request::path().'/data-list';
+
         $this->setting = $setting;
     }
 
     private function getSetting() {
         if (count($this->setting) > 0) {
             return $this->setting;
-        }
-        $data = count($this->model) > 0 ? $this->model[0]->toArray() : [];
-        $setting = [];
-        foreach($data as $k=>$v) {
-            if(!in_array($k,$this->exception)) {
-                $setting[] = [
-                    'name'=>$k,
-                    'title'=>\Str::title($k),
-                    'visible'=>$k=='id'?false:true,
-                ];
-            }
         }
         
         $this->setting['columns'] = $setting;
@@ -73,6 +58,36 @@ class Table extends Component
         return $filters;
     }
 
+    private function setColumns() {
+        $columns = [];
+        if (isset($this->setting['bulks']) && count($this->setting['bulks']) > 0) {
+            $columns[] = [
+                'name'=>'bulks',
+                'data'=>'bulks',
+                'orderable'=>false,
+                'searchable'=>false
+            ];
+        }
+        foreach($this->setting['columns'] as $c) {
+            if ($c['visible'] == true) {
+                $columns[] = [
+                    'name'=>$c['name'],
+                    'data'=>$c['name']
+                ];
+            }
+        }
+        if (isset($this->setting['grid_actions']) && count($this->setting['grid_actions']) > 0) {
+            $columns[] = [
+                'name'=>'grid_actions',
+                'data'=>'grid_actions',
+                'orderable'=>false,
+                'searchable'=>false
+            ];
+        }
+        
+        return $columns;
+    }
+
     /**
      * Get the view / contents that represent the component.
      *
@@ -82,11 +97,12 @@ class Table extends Component
     {
         $setting = $this->getSetting();
         $filters = $this->setFilters();
+        $columns = $this->setColumns();
         
         return view('components.table',[
             'setting'=>$setting,
-            'data'=>$this->model,
-            'filters'=>$filters
+            'filters'=>$filters,
+            'columns'=>json_encode($columns),
         ]);
     }
 }

@@ -9,7 +9,11 @@ class Unit extends Model {
      *
      * @var string
      */
-    protected $table = BaseTable::TBL_UNIT; 
+	protected $table = BaseTable::TBL_UNIT;
+	
+	public $_status = [
+		'Disabled','Ready'
+	];
     /**
 	 * The attributes that aren't mass assignable.
 	 *

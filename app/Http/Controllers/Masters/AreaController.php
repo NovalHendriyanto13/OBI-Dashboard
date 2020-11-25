@@ -5,6 +5,7 @@ use App\Http\Controllers\BaseController;
 use Illuminate\Http\Request;
 use App\Models\Area;
 use App\Form\AreaForm;
+use App\Tools\DataTable;
 
 class AreaController extends BaseController {
 	protected $_baseUrl = 'area';
@@ -39,13 +40,13 @@ class AreaController extends BaseController {
 						'name'=>'type',
 						'title'=>'Type',
 						'visible'=>true,
-						'transform'=>['Not Pool', 'Pool']
+						'transform'=>['Not Pool','Pool']
 					],
 					[
 						'name'=>'status',
 						'title'=>'Status',
 						'visible'=>true,
-						'transform'=>['Inactive', 'Active'],
+						'transform'=>['InActive','Active']
 					],
 				],
 				'bulks'=>[

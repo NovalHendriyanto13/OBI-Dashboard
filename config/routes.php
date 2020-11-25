@@ -23,6 +23,7 @@ foreach($base as $prefix=>$c) {
 		Route::get('update/{id}',['as'=>$prefix.'.update','uses'=>$c.'@update']);
 		Route::match(['post','put'],'update/{id}',['as'=>$prefix.'.update','uses'=>$c.'@updateAction']);
 		Route::get('detail/{id}',['as'=>$prefix.'.detail','uses'=>$c.'@detail']);
+		Route::get('data-list',['as'=>$prefix.'.datalist','uses'=>$c.'@dataList']);
 	});
 }
 
@@ -38,5 +39,6 @@ Route::prefix('setting')->group(function() {
 Route::post('gallery/remove-file',['as'=>'gallery.remove','uses'=>'Masters\GalleryController@remove']);
 // mobilization
 Route::get('mobilization/create/{unitId}',['as'=>'mobilization.create','uses'=>'Masters\MobilizationController@createByUnitId']);
+Route::get('mobilization/list-byunit/{unitId}',['as'=>'mobilization.listbyunit','uses'=>'Masters\MobilizationController@listByUnit']);
 // user
 Route::get('user/get-name',['as'=>'user.get_name','uses'=>'Authentication\UserController@getName']);

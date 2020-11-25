@@ -32,7 +32,7 @@ class ModuleController extends BaseController {
 					],
 					[
 						'name'=>'action',
-						'title'=>'action',
+						'title'=>'Action',
 						'visible'=>true,
 					],
 				],
@@ -64,7 +64,7 @@ class ModuleController extends BaseController {
 		unset($data['_token']);
 
 		$actions = [
-			'index','create','update','delete','detail'
+			'index','create','update','delete','detail', 'datalist'
 		];
 
 		$this->transactionBegin();

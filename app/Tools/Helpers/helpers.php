@@ -34,7 +34,6 @@ if (! function_exists('set_menu')) {
 			$getRedis = \App\Tools\Redis::get($redisKey);
 		}
 		$permission = json_decode($getRedis);
-
 		return (Object) $permission->menus;
 	}
 }

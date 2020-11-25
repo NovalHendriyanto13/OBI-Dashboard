@@ -6,13 +6,71 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Mobilization;
 use App\Form\MobilizationForm;
+use App\Tools\DataTable;
 
 class MobilizationController extends BaseController {
 	protected $_baseUrl = 'mobilization';
 	protected $_title = 'Mobilization';
-    protected $_model = Mobilization::class;
-    
-    public function createByUnitId($unitId) {
+	protected $_model = Mobilization::class;
+
+	public function listByUnit(Request $request, $unitId) {
+		$model = $this->_model::where('unit_id', $unitId)->get();
+		$setting = [
+			'table'=>[
+				'columns'=>[
+					[
+						'name'=>'id',
+						'title'=>'ID',
+						'visible'=>false,
+					],
+					[
+						'name'=>'from_date',
+						'title'=>'From Date',
+						'visible'=>true,
+					],
+					[
+						'name'=>'to_date',
+						'title'=>'To Date',
+						'visible'=>true,
+					],
+					[
+						'name'=>'pic_name',
+						'title'=>'Pic Name',
+						'visible'=>true,
+					],
+					[
+						'name'=>'mobilize_from',
+						'title'=>'From',
+						'visible'=>true,
+					],
+					[
+						'name'=>'mobilize_to',
+						'title'=>'From',
+						'visible'=>true,
+					],
+				],
+				'grid_actions'=>[
+					[
+						'icon'=>'edit',
+						'class'=>'btn-primary',
+						'title'=>'Update',
+						'url'=>url('mobilization/update'),
+						'allow'=>true
+					],
+					[
+						'icon'=>'book-open',
+						'class'=>'btn-primary',
+						'title'=>'Detail',
+						'url'=>url('mobilization/detail'),
+						'allow'=>true
+					],
+				],
+			]
+		];
+		return DataTable::build($model, $setting)->make(true);
+	}
+	
+	public function createByUnitId($unitId) {
         $form = $this->setForm() === null ? null : $this->setForm();
 		
 		$data = [

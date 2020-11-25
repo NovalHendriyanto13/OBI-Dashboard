@@ -43,6 +43,7 @@ class Menu extends Model {
 				->leftJoin(BaseTable::TBL_MODULE.' AS c', $this->table.'.module_id','=','c.id')
 				->whereNotNull($this->table.'.parent_id')
 				->where($this->table.'.status',1)
+				->orderBy($this->table.'.sort_number')
 				->get();
 
 			return $menus;
