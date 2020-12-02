@@ -25,7 +25,12 @@ class DataTable extends Datatables{
             if (isset($c['transform'])) {
                 $transform = $c['transform'];
                 $dataTables = $dataTables->editColumn($field, function($model) use ($transform, $field){
-                    return $transform[$model[$field]];
+                    if (is_array($transform))
+                        return $transform[$model[$field]];
+
+                    if (is_callable($transform)) {
+                        return $transform($model[$field]);
+                    }
                 });
             }
         }

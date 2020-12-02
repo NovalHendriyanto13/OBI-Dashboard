@@ -3,13 +3,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Auction extends Model {
+class AuctionDetail extends Model {
 	/**
      * The table associated with the model.
      *
      * @var string
      */
-    protected $table = BaseTable::TBL_AUCTION; 
+    protected $table = BaseTable::TBL_AUCTION_DETAIL; 
     /**
 	 * The attributes that aren't mass assignable.
 	 *
@@ -17,7 +17,7 @@ class Auction extends Model {
 	 */
 	protected $guarded = [];
 
-     public function area() {
-          return $this->belongsTo('App\Models\Area','area_id');
+     public function auction() {
+          return $this->belongsTo('App\Models\Auction','auction_id');
      }
 }

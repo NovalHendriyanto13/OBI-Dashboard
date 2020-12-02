@@ -13,6 +13,7 @@ $base = [
 	'bidder'=>Userlist\BidderController::class,
 	'consignor'=>Userlist\ConsignorController::class,
 	'auction'=>Auctions\AuctionController::class,
+	'auction-detail'=>Auctions\AuctionDetailController::class,
 ];
 
 foreach($base as $prefix=>$c) {
@@ -44,3 +45,5 @@ Route::get('mobilization/list-byunit/{unitId}',['as'=>'mobilization.listbyunit',
 Route::get('user/get-name',['as'=>'user.get_name','uses'=>'Authentication\UserController@getName']);
 // area
 Route::get('area/get-code',['as'=>'area.get_code','uses'=>'Masters\AreaController@getCode']);
+// auction detail
+Route::get('auction-detail/list-byauction/{auctionId}',['as'=>'auction_detail.listbyauction','uses'=>'Auctions\AuctionDetailController@listByAuction']);

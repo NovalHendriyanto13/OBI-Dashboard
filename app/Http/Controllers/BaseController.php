@@ -104,7 +104,7 @@ class BaseController extends Controller {
 		}
 
 		if($this->_model::create($data)) {
-			$request->session()->flash('status', 'Update was successful!');
+			$request->session()->flash('status', 'Create was successful!');
 			return response()->json([
 				'status'=>true,
 				'data'=>$data,

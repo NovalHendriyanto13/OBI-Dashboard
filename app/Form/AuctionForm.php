@@ -15,6 +15,11 @@ class AuctionForm extends Form {
 		$mode = '';
 		if (isset($options['mode']) && $options['mode'] == 'edit')
 			$mode = 'edit';
+
+		if ($mode == 'edit') {
+			$entity->start_time = date('H:i', strtotime($entity->start_time));
+			$entity->end_time = date('H:i', strtotime($entity->end_time));
+		}
 		
 		$area = new InputSelect([
             'name'=>'area_id',
@@ -129,5 +134,9 @@ class AuctionForm extends Form {
         $this->addCollection($status);
 
 		parent::initialize($entity, $options);
+	}
+
+	private function auctionDetail() {
+		
 	}
 }

@@ -14,7 +14,9 @@
 			<div class="col-md-3">
 				<div class="form-group">
 					@if(in_array(trim($f['type']), ['text','email','number']))
-					<input name="{{$f['name']}}" type="{{$f['type']}}" class="form-control input-filter" placeholder="{{\Str::title($f['name'])}}">
+					<input name="{{$f['name']}}" type="{{$f['type']}}" class="form-control input-filter" placeholder="{{\Str::title(str_replace(['_','.'],' ',$f['name']))}}">
+					@elseif(in_array(trim($f['type']), ['date']))
+					<input name="{{$f['name']}}" type="text" class="form-control input-filter datepicker" placeholder="{{\Str::title(str_replace(['_','.'],' ',$f['name']))}}">
 					@endif
 				</div>
 			</div>
