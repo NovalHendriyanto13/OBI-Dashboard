@@ -80,7 +80,7 @@ class AreaController extends BaseController {
 
 	protected function bulkActions(Request $request) {
 		$req = $request->all();
-		$data = json_decode($req['data']);
+		$data = isset($req['data'])?json_decode($req['data']):[];
 
 		list($action, $value) = explode(':',$req['action']);
 		switch($action) {
@@ -90,5 +90,30 @@ class AreaController extends BaseController {
 				}
 			break;
 		}
+	}
+
+	public function getCode(Request $request) {
+		$id = $request->get('value');
+		$data = $this->_model::find($id);
+
+		if ($data) {
+			$incNumber = is_null($data->increment_number)?1:($data->increment_number + 1);
+			return response()->json([
+				'status'=>true,
+				'data'=>[
+					'value'=>$data->area_code.'-'.str_pad($incNumber,3,'0',STR_PAD_LEFT),
+				],
+				'errors'=>null,
+				'redirect'=>false,
+			]); 
+		}
+		return response()->json([
+			'status'=>false,
+			'data'=>[],
+			'errors'=>[
+				'messages'=> 'No datas Found',
+			],
+			'redirect'=>false,
+		]); 
 	}
 }

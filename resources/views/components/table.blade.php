@@ -8,7 +8,7 @@
 	<div class="collapse m-b-10" id="advance-filter-form">
 		<div class="row">
 			<div class="col-md-12 m-b-5">
-				<label><h6>Search</h6></label>
+				<label><h6>Advance Filter</h6></label>
 			</div>
 			@foreach($filters as $f)
 			<div class="col-md-3">

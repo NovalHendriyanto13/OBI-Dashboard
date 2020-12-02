@@ -62,6 +62,7 @@ class DataTable extends Datatables{
             });
             
         }
+        
         return $dataTables->rawColumns($raws);
     }
 }

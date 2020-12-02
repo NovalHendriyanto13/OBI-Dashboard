@@ -50,9 +50,9 @@ class BaseController extends Controller {
 		if (is_null($this->_model))
 			return [];
 
-		$setting = $this->indexData();
 		$model = $this->_model::get();
-
+		$setting = $this->indexData();
+		
 		return DataTable::build($model, $setting)->make(true);
 	}
 	

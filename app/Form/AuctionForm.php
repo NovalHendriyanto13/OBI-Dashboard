@@ -19,7 +19,7 @@ class AuctionForm extends Form {
 		$area = new InputSelect([
             'name'=>'area_id',
             'label'=>'Area',
-			'class'=>'area-id',
+			'class'=>'area-id ajax-call',
 			'allowEmpty'=>true,
             'required'=>true,
             'ajax-href'=>url('area/get-code'),
@@ -86,69 +86,47 @@ class AuctionForm extends Form {
             'required'=>true
 		]);
 		$this->addCollection($closeHouseDate);
-        
-		$identImage = new InputImage([
-			'name'=>'identity_image',
-            'class'=>'identity_image',
-            'required'=>true
-		]);
-		$this->addCollection($identImage);
-
-		$email = new InputText([
-			'name'=>'email',
-			'class'=>'email',
-            'type'=>'email',
-            'required'=>true
-		]);
-		$this->addCollection($email);
-
-		$phone = new InputText([
-			'name'=>'phone_no',
-			'class'=>'phone-no',
+		
+		$documentNo = new InputText([
+			'name'=>'document_no',
+			'class'=>'document-no',
+			// 'label'=>'Risalah No.',
 			'type'=>'text',
 			'required'=>true,
 		]);
-		$this->addCollection($phone);
-
-		$address = new TextArea([
-			'name'=>'address',
-			'class'=>'address',
-			'required'=>true,
-		]);
-		$this->addCollection($address);
-
-		// account info
-		$accountBank = new InputText([
-			'name'=>'account_bank',
-			'class'=>'account-bank',
-            'type'=>'text',
-            'required'=>true,
-		]);
-        $this->addCollection($accountBank, 'Account Info');
-        
-        $accountBankBranch = new InputText([
-			'name'=>'account_branch',
-			'class'=>'account-branch',
-            'type'=>'text',
-            'required'=>true,
-		]);
-		$this->addCollection($accountBankBranch, 'Account Info');
-
-		$accountNo = new InputText([
-			'name'=>'account_no',
-			'class'=>'account-no',
-            'type'=>'text',
+		$this->addCollection($documentNo);
+		
+		$documentFile = new InputText([
+			'name'=>'document_file',
+			'class'=>'document-file',
+			'type'=>'file',
             'required'=>true
 		]);
-		$this->addCollection($accountNo, 'Account Info');
+		$this->addCollection($documentFile);
 
-		$accountName = new InputText([
-			'name'=>'account_name',
-			'class'=>'account-name',
-            'type'=>'text',
-            'required'=>true,
+		$depositDate = new InputText([
+			'name'=>'deposit_date',
+			'class'=>'deposit-date datepicker',
 		]);
-		$this->addCollection($accountName, 'Account Info');
+		$this->addCollection($depositDate);
+
+		$auctionOfficer = new InputText([
+			'name'=>'auction_officer',
+			'class'=>'auction-officer',
+			'type'=>'text',
+			'required'=>true,
+		]);
+		$this->addCollection($auctionOfficer);
+        
+        $status = new InputSelect([
+			'name'=>'status',
+			'class'=>'status',
+			'required'=>true,
+			'options'=>[
+				'In Active', 'Active', 'Finish', 'Cancel'
+			]
+		]);
+        $this->addCollection($status);
 
 		parent::initialize($entity, $options);
 	}

@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 use Lib\Upload;
+use App\Tools\DataTable;
 
 class BidderController extends BaseController {
 	protected $_baseUrl = 'bidder';
@@ -46,9 +47,6 @@ class BidderController extends BaseController {
 						'name'=>'phone_no',
 						'title'=>'Phone',
 						'visible'=>true,
-						'search'=>[
-							'type'=>'text'
-						]
 					],
 				],
 				'grid_actions'=>[
@@ -209,7 +207,29 @@ class BidderController extends BaseController {
 			],
 			'redirect'=>false,
 		]);
-    }
+	}
+	
+	public function dataList(Request $request) {
+		if (is_null($this->_model))
+			return [];
+
+		$model = $this->_model::get();
+		$setting = $this->indexData();
+
+		$customFilters = $request->get('custom_filters');
+		if (!is_null($customFilters)) {
+			$model = $this->_model::query();
+			
+			if($fname = $customFilters['first_name']) {
+				$model = $model->where('first_name','like','%'.$fname.'%');
+			}
+
+			if($email = $customFilters['email']) {
+				$model = $model->where('email','like','%'.$email.'%');
+			}
+		}
+		return DataTable::build($model, $setting)->make(true);
+	}
     
     private function upsertUser($data, $id) {
         $group = Group::firstWhere('name','user');

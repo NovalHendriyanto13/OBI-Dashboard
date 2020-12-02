@@ -23,7 +23,7 @@ foreach($base as $prefix=>$c) {
 		Route::get('update/{id}',['as'=>$prefix.'.update','uses'=>$c.'@update']);
 		Route::match(['post','put'],'update/{id}',['as'=>$prefix.'.update','uses'=>$c.'@updateAction']);
 		Route::get('detail/{id}',['as'=>$prefix.'.detail','uses'=>$c.'@detail']);
-		Route::get('data-list',['as'=>$prefix.'.datalist','uses'=>$c.'@dataList']);
+		Route::match(['post','get'], 'data-list',['as'=>$prefix.'.datalist','uses'=>$c.'@dataList']);
 	});
 }
 
@@ -42,3 +42,5 @@ Route::get('mobilization/create/{unitId}',['as'=>'mobilization.create','uses'=>'
 Route::get('mobilization/list-byunit/{unitId}',['as'=>'mobilization.listbyunit','uses'=>'Masters\MobilizationController@listByUnit']);
 // user
 Route::get('user/get-name',['as'=>'user.get_name','uses'=>'Authentication\UserController@getName']);
+// area
+Route::get('area/get-code',['as'=>'area.get_code','uses'=>'Masters\AreaController@getCode']);
