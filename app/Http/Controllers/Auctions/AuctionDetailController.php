@@ -5,6 +5,8 @@ use App\Http\Controllers\BaseController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\AuctionDetail;
+use App\Models\Unit;
+use App\Models\Auction;
 use App\Tools\DataTable;
 
 class AuctionDetailController extends BaseController {
@@ -80,7 +82,7 @@ class AuctionDetailController extends BaseController {
 		return DataTable::build($model, $setting)->make(true);
 	}
 	
-	public function createByAuctionId($auctionId) {
+	public function createByAuction($auctionId) {
 		$data = [
 			'action_buttons'=>[
 				[
@@ -98,13 +100,10 @@ class AuctionDetailController extends BaseController {
 				],
 			]
 		];
-		return view('.create')->with($data);
+		return view('auction_detail.create')->with($data);
     }
 
-    protected function setForm() {
-        return AuctionDetailForm::class;
-    }
-
+    
     public function createAction(Request $request) {
         $data = $request->all();
         $data['from_time'] = convert_date($data['from_time'], 'Y-m-d H:i:s');
@@ -184,39 +183,18 @@ class AuctionDetailController extends BaseController {
 		]);
 	}
 	
-	public function detail(Request $request, $id) {
-		$model = $this->_model::find($id);
-		$form = $this->setForm();
+	public function populate(Request $request, $auctionId) {
+		$auction = Auction::find($auctionId); 
+		$units = Unit::where('area_id', $auction->unit_id)
+			->whereIn('status',[1,4])
+			->get();
 		
-		$data = [
-			'id'=>$id,
-			'form' => new $form($model, ['mode'=>'detail']),
-			'action_buttons'=> [
-				[
-					'icon'=>'list',
-					'class'=>'btn-dark',
-					'title'=>'List',
-					'url'=>route('unit.update', ['id'=>$model->unit_id]),
-					'type'=>'link',
-				],
-				[
-					'icon'=>'plus-circle',
-					'class'=>'btn-success',
-					'title'=>'Create',
-					'url'=>route($this->_baseUrl.'.create',['auctionId'=>$model->unit_id]),
-					'type'=>'link'
-				],
-				[
-					'icon'=>'edit',
-					'class'=>'btn-info',
-					'title'=>'Update',
-					'url'=>route($this->_baseUrl.'.update', ['id'=>$id]),
-					'type'=>'link'
-				],
-			]
-		];
-
-		return view($this->_baseView.'.detail')->with($data);
+		return response()->json([
+			'status'=>true,
+			'data'=>$units,
+			'errors'=>null,
+			'redirect'=>false,
+		]);
 	}
     
     protected function validation() {

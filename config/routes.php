@@ -47,3 +47,5 @@ Route::get('user/get-name',['as'=>'user.get_name','uses'=>'Authentication\UserCo
 Route::get('area/get-code',['as'=>'area.get_code','uses'=>'Masters\AreaController@getCode']);
 // auction detail
 Route::get('auction-detail/list-byauction/{auctionId}',['as'=>'auction_detail.listbyauction','uses'=>'Auctions\AuctionDetailController@listByAuction']);
+Route::get('auction-detail/populate/{auctionId}',['as'=>'auction_detail.populate','uses'=>'Auctions\AuctionDetailController@populate']);
+Route::get('auction-detail/create-byauction/{auctionId}',['as'=>'auction_detail.createbyauction','uses'=>'Auctions\AuctionDetailController@createByAuction']);

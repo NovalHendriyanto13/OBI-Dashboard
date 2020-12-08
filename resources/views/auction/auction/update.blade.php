@@ -36,4 +36,25 @@
     </div>
   </div>
 </div>
+
+@include('auction.auction._units')
+
+@endsection
+
+@section('js')
+<script type="text/javascript">
+$('.btn-add-unit').click(function(e) {
+  e.preventDefault()
+  const auctionId = $(this).data('aid')
+  $.ajax({
+    url: baseUrl + 'auction-detail/populate/' + auctionId,
+    type: 'GET',
+    dataType:'json',
+    success: function(res) {
+      console.log(res)
+    } 
+  })
+  $('#unit-modal').modal('show')
+})
+</script>
 @endsection

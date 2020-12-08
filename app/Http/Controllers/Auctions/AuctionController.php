@@ -163,6 +163,10 @@ class AuctionController extends BaseController {
 			]);
 		}
 
+		foreach($this->unsetParam() as $unset) {
+			unset($data[$unset]);
+		}
+
 		if($this->_model::where('id',$id)->update($data)) {
 			$request->session()->flash('status', 'Update was successful!');
 			return response()->json([
@@ -183,6 +187,10 @@ class AuctionController extends BaseController {
 			],
 			'redirect'=>false,
 		]);
+	}
+
+	protected function unsetParam() {
+		return ['lot_no', 'unit_unit_code','action_bulk'];
 	}
 
 	private function auctionDetail($id) {
@@ -268,10 +276,11 @@ class AuctionController extends BaseController {
 				'action_buttons'=>[
 					[
 						'icon'=>'plus-circle',
-						'class'=>'btn-primary',
+						'class'=>'btn-primary btn-add-unit',
 						'title'=>'Add New',
-						'url'=>url('mobilization/create/'.$id),
+						'url'=>'#',
 						'type'=>'link',
+						'attributes'=>"data-aid=".$id.""
 					],
 				],
 			]

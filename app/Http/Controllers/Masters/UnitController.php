@@ -24,8 +24,18 @@ class UnitController extends BaseController {
 						'visible'=>false,
 					],
 					[
+						'name'=>'unit_code',
+						'title'=>'Unit Code',
+						'visible'=>true,
+					],
+					[
 						'name'=>'police_number',
 						'title'=>'Police Number',
+						'visible'=>true,
+					],
+					[
+						'name'=>'area.name',
+						'title'=>'Area',
 						'visible'=>true,
 					],
 					[
